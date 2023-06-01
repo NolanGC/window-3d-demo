@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "window.ai 3D Asset Generator",
+  name: "Window.ai 3D Asset Generator",
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
 
@@ -13,7 +13,7 @@ export const siteConfig = {
     ],
 
   links: {
-    twitter: "https://twitter.com/nolanclement_?lang=en",
+    twitter: "https://twitter.com/windowai_io",
     github: "https://github.com/NolanGC/window-3d-demo",
   },
 }

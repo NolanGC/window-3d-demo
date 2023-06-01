@@ -4,6 +4,7 @@ import { OrbitControls, Html, Loader } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import { BufferGeometry } from 'three';
 
+
 interface ModelProps {
   url: string;
 }
