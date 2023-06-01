@@ -13,8 +13,7 @@ export const siteConfig = {
     // ],
 
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    twitter: "https://twitter.com/nolanclement_?lang=en",
+    github: "https://github.com/NolanGC/window-3d-demo",
   },
 }
