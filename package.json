@@ -20,6 +20,8 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.4",
+    "@react-three/drei": "^9.70.1",
+    "@react-three/fiber": "^8.13.0",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "lucide-react": "0.105.0-alpha.4",
@@ -30,6 +32,7 @@
     "sharp": "^0.31.3",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
+    "three": "^0.153.0",
     "window.ai": "^0.2.1"
   },
   "devDependencies": {
