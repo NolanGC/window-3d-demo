@@ -79,7 +79,7 @@ export default function Home() {
         <div className="flex flex-col h-screen w-full">
                     <Card className="h-full">
                         <CardContent className="flex h-full">
-                            <div className="w-1/2 h-full overflow-auto ml-10 mt-10">
+                            <div className="w-1/2 h-full overflow-auto ml-10 mt-10 p-1">
                                 <Label htmlFor="promptInput">Prompt</Label>
                                 <Input
                                     placeholder="A donut with red frosting"
