@@ -50,8 +50,7 @@ export default function Home() {
             }
             const output = await ai
                 .current
-                .BETA_generateMedia(promptObject, {
-                    'type': 'object',
+                .BETA_generate3DObject(promptObject, {
                     'numInferenceSteps': numInferenceSteps
                 });
             console.log(output)
