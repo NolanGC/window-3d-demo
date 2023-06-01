@@ -5,12 +5,12 @@ export const siteConfig = {
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
 
-    // mainNav: [
+    mainNav: [
     //   {
     //     title: "Browse Creations",
     //     href: "/browse",
     //   },
-    // ],
+    ],
 
   links: {
     twitter: "https://twitter.com/nolanclement_?lang=en",

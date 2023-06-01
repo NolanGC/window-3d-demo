@@ -106,7 +106,7 @@ export default function Home() {
                                 <Button onClick={handleDownload}>Download Model</Button>
                             </div>
 
-                            {objectLink && (<CanvasComponent objectLink={objectLink} className="w-1/2 h-full"/>)}
+                            {objectLink && (<CanvasComponent objectLink={objectLink}/>)}
                         </CardContent>
                     </Card>
         </div>
