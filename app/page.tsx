@@ -15,7 +15,7 @@ import {useToast} from "@/components/ui/use-toast"
 
 export default function Home() {
     const [objectLink,
-        setObjectLink] = useState < string > ('https://storage.googleapis.com/window-objects/9465452f-685a-43fe-9b61-4cf87c2faa70.ply');
+        setObjectLink] = useState < string > ('A chair shaped like an avocado.ply');
     const [inputText,
         setInputText] = useState('');
     const [generating,
@@ -49,10 +49,12 @@ export default function Home() {
                 return;
             }
             const output = await ai
-                .current
-                .BETA_generate3DObject(promptObject, {
-                    'numInferenceSteps': numInferenceSteps
-                });
+                                 .current
+                                 .BETA_generate3DObject( promptObject,
+                                  {"extension":"application/x-ply", 
+                                 "numInferenceSteps": numInferenceSteps})
+            // TODO
+            // Upload to database URI, prompt
             console.log(output)
             setObjectLink(output[0].uri);
             toast({title: "Model generated."})
@@ -65,7 +67,7 @@ export default function Home() {
     const handleDownload = () => {
         const link = document.createElement('a');
         link.href = objectLink as string;
-        link.download = 'model.ply';
+        link.download = inputText + '.ply';
         document
             .body
             .appendChild(link);
@@ -81,7 +83,7 @@ export default function Home() {
                             <div className="w-1/2 h-full overflow-auto ml-10 mt-10 p-1">
                                 <Label htmlFor="promptInput">Prompt</Label>
                                 <Input
-                                    placeholder="A donut with red frosting"
+                                    placeholder="A chair shaped like an avocado"
                                     value={inputText}
                                     onChange={(e) => setInputText(e.target.value)}/>
                                 <Label htmlFor="numInferenceSteps">Quality</Label>

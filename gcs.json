@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "perfect-aura-388222",
+    "private_key_id": "560765e48d129da613559b8e42699b6cbe29f49b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCo9sryQfMj1IDa\nwPsWPr3wuZ7N47DEhMjZGZh+eJhx5+cao+CViOpit1XJ/4QUd1kcm9TS0jiAD6mH\nSzcakNTZXhCx1DM3Wm/sLDyykMsnllf8jcYuuljbb1tAKK23dzmare/vB0du7Rpf\ntCipvmhPPNKFZm1bATfYBS/ipb8AwXr/2zuHbdNLm6VomeL7QPR8mPs1LBXUTXok\n9L0lJW6iiwSD0q2HxSboR2gawtMMMmxYIZlaWNoWE84TWpgAUFlhuK2xLgBQtwrS\ndd4BVySBpKrtltXINGTIJpBL26jKR6tRJKQk6KJQOvPZht0OFyM6u2x2dA6uIla2\nSKpvW6SbAgMBAAECggEAGVhn6hOFgaGYsKJ+fQBCusUFXX94XopH8fUPyyI+RTvo\nZAvNc8ZFg92vg0Jj0YlzocHTGMrLCelk4J7M8HG6/rOdunyJMED4hWC/Zs58gv7f\nn6AJaKywXpOjiF9xwOckCiAUW/KSFGwsZsseHGmruP3NMJCZpStCHBKZyRxcJ08f\n9Erpen+U1zYCgBsmhmfZaL4+ZJUiBz5W12bmEz1Z7kOE04NISJTRDzztFFY5gD/w\n5WlInMJc/kfAkmWMBeURasmqp95GiibhfSSbSAkDjcTrzOdUE6Vl6xSmLaBbRNDW\nE29Gvq0hhgyptraAtv5af1uprHE7HKWkLEGN7onETQKBgQDmD4aQcUSB33Yxp2qv\nsbBHmks8AuY2lVX8+1MB7Ak+6TW8SH0UhzTXOBoMkSdA3DhW1r2T7vR/Ht9uZtMl\nloZ5Nq2pCaqkrxPpd2H6EL+LToQ/RLus1TyDn+DKLkwSD4SbS6+Jff8XOf9GMyi0\nttZBcs9Yf5xr7Zw/HbkfTvQ0ZwKBgQC8A8YBxx0k2uwWjFpYl+GEwweGaktKOT/+\nACAngTAV601G1Vx4D2ZdceFEgI8zoW/bbQfw98gLfZbGqQp4zakHyuP9P878gMAI\nF20g/hGzOoBIVfqR1i1Cyt4oANd1gYs67dV3ep/7eRhuEiKb8Grrlp+Q1ruGCozm\n8SCVkh0NrQKBgQDjBUkVeiBPRFLe9sUJcP9x+Ojq5DWGgWDkDqG/0Mri4MDc9m8v\ndaiIBF14LzicAXQ7BRb4RyHP24hB6ofLnLlAHdvKZbaVYgr1JJBzclmBv04zHMFR\n8O4RORBakssQO23wzQQAWmwB4IJuJIezpITS+tdvDiYuPsAjbFJEeeXzWwKBgEXn\npURd8wEUALm1f5X3CpuhI/gfJ1U2igt3onzttKJBtZ7Dj7j4CNhvkhE1N4k72eoc\n1NoMVq2nCVtd2I3n8ZP7JN+xTNVnTX70rteYf55C/xVmGl8E4hk2cnkvLuz6uHi1\nmyvsRPVsJeAvD/0o26gyfauNm3WQEKmBN9tE01aVAoGAfoKD8CGEprE1YDonFCLy\nXASY5SOHZWZu+eGdFJRbqWafR2tJtg2or79+DAmPAMA+2ntWLPYe/1fOV4hGuLB0\nuWf7uo6DL/sAb1X1J+qpBC8IUdwMfZzBa7AjM1xIvoXRnB/OzDoXaLGgbK792O/H\nSCReZB3YwK7RCsGmSYJlPuc=\n-----END PRIVATE KEY-----\n",
+    "client_email": "windowservice@perfect-aura-388222.iam.gserviceaccount.com",
+    "client_id": "107263547361013784313",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/windowservice%40perfect-aura-388222.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+}
