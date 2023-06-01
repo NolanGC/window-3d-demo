@@ -32,6 +32,7 @@ export default function Home() {
                 ai.current = windowAI;
                 toast({title: "window.ai loaded."})
             } catch (error) {
+                // TODO: installation route
                 toast({title: "Error loading window.ai."})
             }
         }
@@ -101,10 +102,10 @@ export default function Home() {
                                       </SelectContent>
                                 </Select>
                                 </div>
-                                {generating
-                                    ? <Loader className="spin mb-5"/>
-                                    : <Button className="mr-3" onClick={handleGenerate}>Generate Model</Button>}
+                                <div className="flex flex-row">
+                                <Button className="mr-3" onClick={handleGenerate}>{!generating ? "Generate Model" : <Loader className="spin"/>}</Button>
                                 <Button onClick={handleDownload}>Download Model</Button>
+                                </div>
                             </div>
 
                             {objectLink && (<CanvasComponent objectLink={objectLink}/>)}
