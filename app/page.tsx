@@ -17,7 +17,7 @@ export default function Home() {
     const [objectLink,
         setObjectLink] = useState < string > ('https://storage.googleapis.com/window-objects/9465452f-685a-43fe-9b61-4cf87c2faa70.ply');
     const [inputText,
-        setInputText] = useState('A donut with red frosting');
+        setInputText] = useState('');
     const [generating,
         setGenerating] = useState < boolean > (false);
     const [numInferenceSteps,
@@ -82,7 +82,7 @@ export default function Home() {
                             <div className="w-1/2 h-full overflow-auto ml-10 mt-10">
                                 <Label htmlFor="promptInput">Prompt</Label>
                                 <Input
-                                    placeholder="A cute teddy bear"
+                                    placeholder="A donut with red frosting"
                                     value={inputText}
                                     onChange={(e) => setInputText(e.target.value)}/>
                                 <Label htmlFor="numInferenceSteps">Quality</Label>
