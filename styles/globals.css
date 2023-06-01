@@ -79,3 +79,11 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+}

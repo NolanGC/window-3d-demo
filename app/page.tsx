@@ -1,39 +1,114 @@
-import Link from "next/link"
+"use client";
+import {useEffect, useRef, useState} from 'react';
+import {getWindowAI} from 'window.ai';
+import CanvasComponent from "@/components/canvas";
+import {Button} from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+} from "@/components/ui/card"
+import {Loader} from 'lucide-react';
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {useToast} from "@/components/ui/use-toast"
 
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+export default function Home() {
+    const [objectLink,
+        setObjectLink] = useState < string > ('https://storage.googleapis.com/window-objects/9465452f-685a-43fe-9b61-4cf87c2faa70.ply');
+    const [inputText,
+        setInputText] = useState('A donut with red frosting');
+    const [generating,
+        setGenerating] = useState < boolean > (false);
+    const [numInferenceSteps,
+        setNumInferenceSteps] = useState < number > (32);
+    const ai = useRef < any > (null);
+    const {toast} = useToast();
 
-export default function IndexPage() {
-  return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Beautifully designed components <br className="hidden sm:inline" />
-          built with Radix UI and Tailwind CSS.
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Accessible and customizable components that you can copy and paste
-          into your apps. Free. Open Source. And Next.js 13 Ready.
-        </p>
-      </div>
-      <div className="flex gap-4">
-        <Link
-          href={siteConfig.links.docs}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonVariants()}
-        >
-          Documentation
-        </Link>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
-      </div>
-    </section>
-  )
+    useEffect(() => {
+        const init = async() => {
+            try {
+                const windowAI = await getWindowAI();
+                ai.current = windowAI;
+                toast({title: "window.ai loaded."})
+            } catch (error) {
+                toast({title: "Error loading window.ai."})
+            }
+        }
+        init();
+    }, []);
+
+    const handleGenerate = async() => {
+        const promptObject = {
+            'prompt': inputText
+        }
+        try {
+            setGenerating(true);
+            if (!ai.current) {
+                toast({title: "Error loading window.ai."})
+                return;
+            }
+            const output = await ai
+                .current
+                .BETA_generateMedia(promptObject, {
+                    'type': 'object',
+                    'numInferenceSteps': numInferenceSteps
+                });
+            console.log(output)
+            setObjectLink(output[0].uri);
+            toast({title: "Model generated."})
+            setGenerating(false);
+        } catch (error) {
+            toast({title: "Error generating model."})
+            setGenerating(false);
+        }
+    };
+    const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = objectLink as string;
+        link.download = 'model.ply';
+        document
+            .body
+            .appendChild(link);
+        link.click();
+        document
+            .body
+            .removeChild(link);
+    };
+    return (
+        <div className="flex flex-col h-screen w-full">
+                    <Card className="h-full">
+                        <CardContent className="flex h-full">
+                            <div className="w-1/2 h-full overflow-auto ml-10 mt-10">
+                                <Label htmlFor="promptInput">Prompt</Label>
+                                <Input
+                                    placeholder="A cute teddy bear"
+                                    value={inputText}
+                                    onChange={(e) => setInputText(e.target.value)}/>
+                                <Label htmlFor="numInferenceSteps">Quality</Label>
+                                <div className="mb-5">
+                                  <Select
+                                      onValueChange={(value) => setNumInferenceSteps(parseInt(value))}
+                                      defaultValue="32">
+                                      <SelectTrigger className="w-[180px]">
+                                          <SelectValue placeholder="Quality "/>
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                          <SelectItem value="16">Low</SelectItem>
+                                          <SelectItem value="32">Medium</SelectItem>
+                                          <SelectItem value="64">High</SelectItem>
+                                      </SelectContent>
+                                </Select>
+                                </div>
+                                {generating
+                                    ? <Loader className="spin mb-5"/>
+                                    : <Button className="mr-3" onClick={handleGenerate}>Generate Model</Button>}
+                                <Button onClick={handleDownload}>Download Model</Button>
+                            </div>
+
+                            {objectLink && (<CanvasComponent objectLink={objectLink} className="w-1/2 h-full"/>)}
+                        </CardContent>
+                    </Card>
+        </div>
+    )
 }

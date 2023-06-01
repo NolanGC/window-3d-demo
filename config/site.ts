@@ -1,15 +1,17 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Next.js",
+  name: "window.ai 3D Asset Generator",
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
-  mainNav: [
-    {
-      title: "Home",
-      href: "/",
-    },
-  ],
+
+    // mainNav: [
+    //   {
+    //     title: "Browse Creations",
+    //     href: "/browse",
+    //   },
+    // ],
+
   links: {
     twitter: "https://twitter.com/shadcn",
     github: "https://github.com/shadcn/ui",
