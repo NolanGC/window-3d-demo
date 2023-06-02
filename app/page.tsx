@@ -12,7 +12,7 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {useToast} from "@/components/ui/use-toast"
-import { insertCreation } from "@/app/queries";
+import { db, CreationsTable } from '@/lib/drizzle';
 
 export default function Home() {
     const [objectLink,
@@ -41,9 +41,7 @@ export default function Home() {
     }, []);
 
     const handleGenerate = async () => {
-        const promptObject = {
-          'prompt': inputText
-        }
+        const promptObject = { 'prompt': inputText }
         try {
           setGenerating(true);
           if (!ai.current) {
@@ -56,16 +54,25 @@ export default function Home() {
       
           // Store the generated object in the DB using the API endpoint
           const data_uri = output[0].uri;
-          await fetch('/api/creations', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ prompt: inputText, data_uri }),
-          });
-      
           setObjectLink(data_uri);
           toast({title: "Model generated and stored."})
+      
+          // Insert new creation into the database
+          const newCreation = {
+            prompt: inputText,
+            data_uri: data_uri,
+          };
+      
+          const insertedCreations = await db
+            .insert(CreationsTable)
+            .values(newCreation)
+            .returning();
+      
+          // Since you're only inserting one creation, you can take the first one
+          const insertedCreation = insertedCreations[0];
+      
+          console.log(`Inserted a new creation with ID ${insertedCreation.id}`);
+      
           setGenerating(false);
         } catch (error) {
           toast({title: "Error generating model."})
