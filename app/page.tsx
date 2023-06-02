@@ -12,6 +12,7 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {useToast} from "@/components/ui/use-toast"
+import { insertCreation } from "@/app/queries";
 
 export default function Home() {
     const [objectLink,
@@ -39,32 +40,38 @@ export default function Home() {
         init();
     }, []);
 
-    const handleGenerate = async() => {
+    const handleGenerate = async () => {
         const promptObject = {
-            'prompt': inputText
+          'prompt': inputText
         }
         try {
-            setGenerating(true);
-            if (!ai.current) {
-                toast({title: "Error loading window.ai."})
-                return;
-            }
-            const output = await ai
-                                 .current
-                                 .BETA_generate3DObject( promptObject,
-                                  {"extension":"application/x-ply", 
-                                 "numInferenceSteps": numInferenceSteps})
-            // TODO
-            // Upload to database URI, prompt
-            console.log(output)
-            setObjectLink(output[0].uri);
-            toast({title: "Model generated."})
-            setGenerating(false);
+          setGenerating(true);
+          if (!ai.current) {
+            toast({title: "Error loading window.ai."})
+            return;
+          }
+          const output = await ai
+            .current
+            .BETA_generate3DObject(promptObject, { "extension": "application/x-ply", "numInferenceSteps": numInferenceSteps });
+      
+          // Store the generated object in the DB using the API endpoint
+          const data_uri = output[0].uri;
+          await fetch('/api/creations', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt: inputText, data_uri }),
+          });
+      
+          setObjectLink(data_uri);
+          toast({title: "Model generated and stored."})
+          setGenerating(false);
         } catch (error) {
-            toast({title: "Error generating model."})
-            setGenerating(false);
+          toast({title: "Error generating model."})
+          setGenerating(false);
         }
-    };
+      };
     const handleDownload = () => {
         const link = document.createElement('a');
         link.href = objectLink as string;

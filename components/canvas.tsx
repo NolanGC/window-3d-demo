@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
-import { OrbitControls, Html, Loader, ArcballControls } from '@react-three/drei';
+import { OrbitControls, Html, Loader, ArcballControls, PerspectiveCamera } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import { BufferGeometry } from 'three';
 
@@ -21,18 +21,18 @@ const Model: React.FC<ModelProps> = ({ url }) => {
   );
 }
 
-
 const CanvasComponent: React.FC<CanvasComponentProps> = ({ objectLink }) => {
   return (
     <div className="w-full h-full">
       <Canvas style={{ width: '100%', height: '100%' }}>
-        <ambientLight intensity={5}/>
+      <PerspectiveCamera makeDefault position={[0, -6, 5]} />
+        <ambientLight intensity={2} />
         {objectLink &&
           <Suspense fallback={<Html center><Loader /></Html>}>
             <Model url={objectLink} />
           </Suspense>
         }
-        <ArcballControls dampingFactor={0.2}/>
+        <ArcballControls dampingFactor={0.2} target={[0, 0, 0]} />
       </Canvas>
     </div>
   )
