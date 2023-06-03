@@ -12,12 +12,13 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   return (
-    <div className="flex gap-6 md:gap-10">
+    <div className="flex items-center">
+      <Icons.logo className="h-6 w-6 mr-2 ml-8" /> {/* Adjust margin to reduce the gap */}
       <Link href="/" className="flex items-center space-x-2">
         <span className="inline-block font-bold">{siteConfig.name}</span>
       </Link>
       {items?.length ? (
-        <nav className="flex gap-6">
+        <nav className="flex gap-2 ml-8 mr-8"> {/* Adjust gap and add margin */}
           {items?.map(
             (item, index) =>
               item.href && (
@@ -36,5 +37,12 @@ export function MainNav({ items }: MainNavProps) {
         </nav>
       ) : null}
     </div>
-  )
+  );
 }
+
+
+
+
+
+
+

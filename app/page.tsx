@@ -1,5 +1,6 @@
 "use client";
 import {useEffect, useRef, useState} from 'react';
+import { useSearchParams } from 'next/navigation';
 import {getWindowAI} from 'window.ai';
 import CanvasComponent from "@/components/canvas";
 import {Button} from "@/components/ui/button";
@@ -11,20 +12,25 @@ import {Loader} from 'lucide-react';
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {useToast} from "@/components/ui/use-toast"
-import { db, CreationsTable } from '@/lib/drizzle';
+import {useToast } from "@/components/ui/use-toast"
+import { ToastProvider } from "@/components/ui/toast"
+
 
 export default function Home() {
+    const { toast } = useToast()
+    const searchParams = useSearchParams();
+    const id = searchParams.get('id');
+    console.log(id)
     const [objectLink,
         setObjectLink] = useState < string > ('A chair shaped like an avocado.ply');
     const [inputText,
         setInputText] = useState('');
+    const [shareLink, setShareLink] = useState < string > ('');
     const [generating,
         setGenerating] = useState < boolean > (false);
     const [numInferenceSteps,
         setNumInferenceSteps] = useState < number > (32);
     const ai = useRef < any > (null);
-    const {toast} = useToast();
 
     useEffect(() => {
         const init = async() => {
@@ -37,8 +43,37 @@ export default function Home() {
                 toast({title: "Error loading window.ai."})
             }
         }
-        init();
-    }, []);
+        if (id) {
+            setGenerating(true);
+            fetch(`/api/find?id=${id}`, { // Use the /find endpoint with the 'id' parameter
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data) {
+                  console.log("DATA", data);
+                  setInputText(data[0].prompt);
+                  setObjectLink(data[0].data_uri    );
+                }
+              })
+              .catch((error) => console.error('Failed to fetch item:', error))
+              .finally(() => {
+                setGenerating(false);
+              });
+              setShareLink(window.location.href);
+          } else {
+            init();
+          }
+        }, [id]);
+
+    const handleShare = () => {
+        // copy share link to clipboard
+        navigator.clipboard.writeText(shareLink);
+        toast({description: "Copied link to clipboard."})
+    }
 
     const handleGenerate = async () => {
         const promptObject = { 'prompt': inputText }
@@ -55,26 +90,27 @@ export default function Home() {
           // Store the generated object in the DB using the API endpoint
           const data_uri = output[0].uri;
           setObjectLink(data_uri);
-          toast({title: "Model generated and stored."})
+          
       
-          // Insert new creation into the database
           const newCreation = {
             prompt: inputText,
             data_uri: data_uri,
           };
-      
-          const insertedCreations = await db
-            .insert(CreationsTable)
-            .values(newCreation)
-            .returning();
-      
-          // Since you're only inserting one creation, you can take the first one
-          const insertedCreation = insertedCreations[0];
-      
-          console.log(`Inserted a new creation with ID ${insertedCreation.id}`);
-      
+          
+          const response = await fetch('/api/creations', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newCreation),
+          });
+          
+          const insertedCreation = await response.json();
+          setShareLink(window.location.href + "?id=" + insertedCreation.id);
+
           setGenerating(false);
         } catch (error) {
+          console.log(error)
           toast({title: "Error generating model."})
           setGenerating(false);
         }
@@ -95,7 +131,7 @@ export default function Home() {
         <div className="flex flex-col h-screen w-full">
                     <Card className="h-full">
                         <CardContent className="flex h-full">
-                            <div className="w-1/2 h-full overflow-auto ml-10 mt-10 p-1">
+                            <div className="w-full h-full overflow-auto ml-10 mt-10 p-1">
                                 <Label htmlFor="promptInput">Prompt</Label>
                                 <Input
                                     placeholder="A chair shaped like an avocado"
@@ -118,7 +154,8 @@ export default function Home() {
                                 </div>
                                 <div className="flex flex-row">
                                 <Button className="mr-3" onClick={handleGenerate}>{!generating ? "Generate Model" : <Loader className="spin"/>}</Button>
-                                <Button onClick={handleDownload}>Download Model</Button>
+                                <Button className="mr-3"  onClick={handleDownload}>Download Model</Button>
+                                <Button onClick={handleShare}>Share Link</Button>
                                 </div>
                             </div>
 
