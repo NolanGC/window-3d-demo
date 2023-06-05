@@ -1,0 +1,231 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { getWindowAI } from "window.ai";
+import CanvasComponent from "@/components/canvas";
+import { Button } from "@/components/ui/button";
+import { ToastAction } from "@/components/ui/toast";
+import { Card, CardContent } from "@/components/ui/card";
+import { Loader } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+
+function InstallButton() {
+  const handleClick = () => {
+    window.open(
+      "https://chrome.google.com/webstore/detail/window-ai/cbhbgmdpcoelfdoihppookkijpmgahag",
+      "_blank"
+    );
+  };
+
+  return <Button onClick={handleClick}>Install</Button>;
+}
+
+export default function Home() {
+  const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const [objectLink, setObjectLink] = useState<string>(
+    "A chair shaped like an avocado.ply"
+  );
+  const [inputText, setInputText] = useState("");
+  const [shareLink, setShareLink] = useState<string>("");
+  const [generating, setGenerating] = useState<boolean>(false);
+  const [numInferenceSteps, setNumInferenceSteps] = useState<number>(32);
+  const ai = useRef<any>(null);
+
+  async function uploadToGcs(
+    dataUri: RequestInfo | URL,
+    signedUrl: RequestInfo | URL
+  ) {
+    // Convert the data URI to a Blob
+    const response = await fetch(dataUri);
+    const blob = await response.blob();
+
+    // Upload the Blob to GCS using the signed URL
+    const uploadResponse = await fetch(signedUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: blob,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error(`Upload failed: ${uploadResponse.statusText}`);
+    }
+  }
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const windowAI = await getWindowAI();
+        ai.current = windowAI;
+        toast({ title: "window.ai detected." });
+      } catch (error) {
+        // TODO: installation route
+        toast({
+          title: "Please install window.ai",
+          action: (
+            <ToastAction asChild altText="install">
+              <InstallButton></InstallButton>
+            </ToastAction>
+          ),
+        });
+      }
+    };
+    if (id) {
+      setGenerating(true);
+      fetch(`/api/find?id=${id}`, {
+        // Use the /find endpoint with the 'id' parameter
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            setInputText(data[0].prompt);
+            setObjectLink(data[0].data_uri);
+          }
+        })
+        .catch((error) => console.error("Failed to fetch item:", error))
+        .finally(() => {
+          setGenerating(false);
+        });
+      setShareLink(window.location.href);
+    } else {
+      init();
+    }
+  }, [id]);
+
+  const handleShare = () => {
+    // copy share link to clipboard
+    navigator.clipboard.writeText(shareLink);
+    toast({ description: "Copied link to clipboard." });
+  };
+
+  const handleGenerate = async () => {
+    const promptObject = { prompt: inputText };
+    try {
+      setGenerating(true);
+      if (!ai.current) {
+        toast({ title: "Error loading window.ai." });
+        return;
+      }
+      const output = await ai.current.BETA_generate3DObject(promptObject, {
+        extension: "application/x-ply",
+        numInferenceSteps: numInferenceSteps,
+      });
+
+      // Store the generated object in the DB using the API endpoint
+      const data_uri = output[0].uri;
+
+      const signedurlResponse = await fetch("/api/generateSignedUrl", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filename: `${inputText}.ply` }),
+      });
+
+      if (!signedurlResponse.ok) {
+        throw new Error(`Failed to get signed URL: ${signedurlResponse.body}`);
+      }
+
+      const { signedUrl } = await signedurlResponse.json();
+
+      // Upload the data URI to GCS
+      await uploadToGcs(data_uri, signedUrl);
+
+      // Now the data URI is the public URL of the uploaded file
+      const fileName = `${inputText}.ply`;
+      const bucketName = "window-objects";
+      const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      setObjectLink(publicUrl);
+
+      const newCreation = {
+        prompt: inputText,
+        data_uri: publicUrl,
+      };
+
+      const response = await fetch("/api/creations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCreation),
+      });
+
+      const insertedCreation = await response.json();
+      setShareLink(window.location.href + "?id=" + insertedCreation.id);
+
+      setGenerating(false);
+    } catch (error) {
+      toast({ title: "Error generating model." });
+      setGenerating(false);
+    }
+  };
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = objectLink as string;
+    link.download = inputText + ".ply";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  return (
+    <div className="flex flex-col h-screen w-full">
+      <Card className="h-full">
+        <CardContent className="flex flex-col md:flex-row h-full">
+          <div className="w-full md:w-1/2 h-2/3 overflow-auto p-1 md:ml-10 md:mt-10 -mb-20">
+            <Label htmlFor="promptInput">Prompt</Label>
+            <Input
+              placeholder="A chair shaped like an avocado"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+            />
+            <Label htmlFor="numInferenceSteps">Quality</Label>
+            <div className="mb-5">
+              <Select
+                onValueChange={(value) => setNumInferenceSteps(parseInt(value))}
+                defaultValue="32"
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Quality " />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="16">Low</SelectItem>
+                  <SelectItem value="32">Medium</SelectItem>
+                  <SelectItem value="64">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-row">
+              <Button className="mr-3" onClick={handleGenerate}>
+                {!generating ? "Generate Model" : <Loader className="spin" />}
+              </Button>
+              <Button className="mr-3" onClick={handleDownload}>
+                Download Model
+              </Button>
+              <Button onClick={handleShare}>Share Link</Button>
+            </div>
+          </div>
+          <div className="w-full md:w-1/2 h-full overflow-auto p-1">
+            {objectLink && <CanvasComponent objectLink={objectLink} />}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
