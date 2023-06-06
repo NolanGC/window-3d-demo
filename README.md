@@ -1,22 +1,6 @@
-# next-template
+## [window.ai](https://windowai.io/) Generative 3D Demo
+![screenshot of the web demo](https://i.imgur.com/HUjORHb.png)
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+Generate 3D objects in the browser with [window.ai](https://windowai.io/) and OpenAI's [shap-e](https://github.com/openai/shap-e). 
 
-## Usage
-
-```bash
-npx create-next-app -e https://github.com/shadcn/next-template
-```
-
-## Features
-
-- Next.js 13 App Directory
-- Radix UI Primitives
-- Tailwind CSS
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Tailwind CSS class sorting, merging and linting.
-
-## License
-
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+Try the [Web Demo](https://window-3d-demo.vercel.app/)!
