@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import toast, { Toaster } from 'react-hot-toast';
 import {
   Select,
   SelectContent,
@@ -30,7 +31,8 @@ function InstallButton() {
 }
 
 export default function Home() {
-  const { toast } = useToast();
+  const shadToast = useToast();
+  const toastShad = shadToast.toast;
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -70,17 +72,25 @@ export default function Home() {
       try {
         const windowAI = await getWindowAI();
         ai.current = windowAI;
-        toast({ title: "window.ai detected." });
+        toastShad({ title: "window.ai detected." });
       } catch (error) {
         // TODO: installation route
-        toast({
-          title: "Please install window.ai",
-          action: (
-            <ToastAction asChild altText="install">
-              <InstallButton></InstallButton>
-            </ToastAction>
-          ),
-        });
+        toast.custom(
+          <div className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center space-x-2">
+            <div>Please install the</div>
+            <a
+              href="https://chrome.google.com/webstore/detail/window-ai/cbhbgmdpcoelfdoihppookkijpmgahag"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-semibold"
+            >
+              window.ai extension
+            </a>
+            <div> to get started!</div>
+          </div>, {
+            id: 'window-ai-not-detected',
+          }
+        );
       }
     };
     if (id) {
@@ -112,7 +122,7 @@ export default function Home() {
   const handleShare = () => {
     // copy share link to clipboard
     navigator.clipboard.writeText(shareLink);
-    toast({ description: "Copied link to clipboard." });
+    toastShad({ description: "Copied link to clipboard." });
   };
 
   const handleGenerate = async () => {
@@ -120,7 +130,7 @@ export default function Home() {
     try {
       setGenerating(true);
       if (!ai.current) {
-        toast({ title: "Error loading window.ai." });
+        toastShad({ title: "Error loading window.ai." });
         return;
       }
       const output = await ai.current.BETA_generate3DObject(promptObject, {
@@ -172,7 +182,7 @@ export default function Home() {
 
       setGenerating(false);
     } catch (error) {
-      toast({ title: "Error generating model." });
+      toastShad({ title: "Error generating model." });
       setGenerating(false);
     }
   };
@@ -218,7 +228,7 @@ export default function Home() {
               <Button className="mr-3" onClick={handleDownload}>
                 Download Model
               </Button>
-              <Button onClick={handleShare}>Share Link</Button>
+              <Button onClick={handleShare}>Copy Link to Model</Button>
             </div>
           </div>
           <div className="w-full md:w-1/2 h-full overflow-auto p-1">
@@ -226,6 +236,7 @@ export default function Home() {
           </div>
         </CardContent>
       </Card>
+      <Toaster></Toaster>
     </div>
   );
 }

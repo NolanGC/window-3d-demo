@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { Table, TableCell, TableRow } from "@/components/ui/table";
 import CanvasComponent from "@/components/canvas";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
@@ -22,6 +23,7 @@ const GridPage = () => {
   const itemsPerPage = 9;
   const itemsPerRow = isMobile ? 1 : 3;
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleInspectClick = (id: any) => {
     router.push(`/?id=${id}`);
