@@ -27,6 +27,7 @@ export const CreationsTable = pgTable(
 {
     id: serial('id').primaryKey(),
     prompt: text('prompt').notNull(),
+    thumbnail_uri: text('thumbnail_uri').notNull(),
     data_uri: text('data_uri').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
 }

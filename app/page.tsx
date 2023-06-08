@@ -1,15 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { getWindowAI } from "window.ai";
 import CanvasComponent from "@/components/canvas";
 import { Button } from "@/components/ui/button";
-import { ToastAction } from "@/components/ui/toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { getWindowAI } from "window.ai";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from 'react-hot-toast';
+import Head from 'next/head';
 import {
   Select,
   SelectContent,
@@ -36,15 +36,18 @@ export default function Home() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const [objectLink, setObjectLink] = useState<string>(
+  const [objectLink, setObjectLink] = useState<string | null>(
     "A chair shaped like an avocado.ply"
   );
   const [inputText, setInputText] = useState("");
   const [shareLink, setShareLink] = useState<string>("");
   const [generating, setGenerating] = useState<boolean>(false);
+  const [loadingPreset, setLoadingPreset] = useState<boolean>(false);
   const [numInferenceSteps, setNumInferenceSteps] = useState<number>(32);
-  const ai = useRef<any>(null);
+  const [imageThumbail, setImageThumbnail] = useState<string | null>("");
 
+  const ai = useRef<any>(null);
+  
   async function uploadToGcs(
     dataUri: RequestInfo | URL,
     signedUrl: RequestInfo | URL
@@ -94,7 +97,7 @@ export default function Home() {
       }
     };
     if (id) {
-      setGenerating(true);
+      setLoadingPreset(true);
       fetch(`/api/find?id=${id}`, {
         // Use the /find endpoint with the 'id' parameter
         method: "GET",
@@ -107,11 +110,12 @@ export default function Home() {
           if (data) {
             setInputText(data[0].prompt);
             setObjectLink(data[0].data_uri);
+            setImageThumbnail(data[0].image_thumbnail);
           }
         })
         .catch((error) => console.error("Failed to fetch item:", error))
         .finally(() => {
-          setGenerating(false);
+          setLoadingPreset(false);
         });
       setShareLink(window.location.href);
     } else {
@@ -137,7 +141,6 @@ export default function Home() {
         extension: "application/x-ply",
         numInferenceSteps: numInferenceSteps,
       });
-
       // Store the generated object in the DB using the API endpoint
       const data_uri = output[0].uri;
 
@@ -162,30 +165,42 @@ export default function Home() {
       const fileName = `${inputText}.ply`;
       const bucketName = "window-objects";
       const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+     
       setObjectLink(publicUrl);
-
-      const newCreation = {
-        prompt: inputText,
-        data_uri: publicUrl,
-      };
-
-      const response = await fetch("/api/creations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCreation),
-      });
-
-      const insertedCreation = await response.json();
-      setShareLink(window.location.href + "?id=" + insertedCreation.id);
-
-      setGenerating(false);
     } catch (error) {
+      console.error(error);
       toastShad({ title: "Error generating model." });
       setGenerating(false);
     }
   };
+  const handleScreenShotAndUpload = async (screenshotData: any) => {
+    try {
+        if(generating){
+          const newCreation = {
+            prompt: inputText,
+            thumbnail_uri: screenshotData,
+            data_uri: objectLink,
+          };
+          console.log(newCreation)
+          const response = await fetch("/api/creations", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCreation),
+          });
+          const insertedCreation = await response.json();
+          setShareLink(window.location.href + "?id=" + insertedCreation.id);
+          setGenerating(false);
+        }
+    }
+    catch (error) {
+      console.error("WE HIT THIS", error);
+      toastShad({ title: "Error uploading model." });
+      setGenerating(false);
+    }
+  }
+  
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = objectLink as string;
@@ -196,6 +211,10 @@ export default function Home() {
   };
   return (
     <div className="flex flex-col h-screen w-full">
+      <Head>
+        <title>window.ai Generative 3D</title>
+        <meta property="og:image" content={imageThumbail} />
+      </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
           <div className="w-full md:w-1/2 h-2/3 overflow-auto p-1 md:ml-10 md:mt-10 -mb-20">
@@ -223,7 +242,7 @@ export default function Home() {
             </div>
             <div className="flex flex-row">
               <Button className="mr-3" onClick={handleGenerate}>
-                {!generating ? "Generate Model" : <Loader className="spin" />}
+                {!generating && !loadingPreset ? "Generate Model" : <Loader className="spin" />}
               </Button>
               <Button className="mr-3" onClick={handleDownload}>
                 Download Model
@@ -232,7 +251,9 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full md:w-1/2 h-full overflow-auto p-1">
-            {objectLink && <CanvasComponent objectLink={objectLink} />}
+          {objectLink && (
+            <CanvasComponent objectLink={objectLink} onScreenshotReady={handleScreenShotAndUpload} />
+          )}
           </div>
         </CardContent>
       </Card>
