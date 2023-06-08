@@ -33,7 +33,7 @@ export default function Home() {
   const [generating, setGenerating] = useState<boolean>(false);
   const [loadingPreset, setLoadingPreset] = useState<boolean>(false);
   const [numInferenceSteps, setNumInferenceSteps] = useState<number>(32);
-  const [imageThumbail, setImageThumbnail] = useState<string | null>("");
+  const [imageThumbnail, setImageThumbnail] = useState<string | null>("");
 
   const ai = useRef<any>(null);
   
