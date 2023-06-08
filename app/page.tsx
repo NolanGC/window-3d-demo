@@ -19,17 +19,6 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 
-function InstallButton() {
-  const handleClick = () => {
-    window.open(
-      "https://chrome.google.com/webstore/detail/window-ai/cbhbgmdpcoelfdoihppookkijpmgahag",
-      "_blank"
-    );
-  };
-
-  return <Button onClick={handleClick}>Install</Button>;
-}
-
 export default function Home() {
   const shadToast = useToast();
   const toastShad = shadToast.toast;
@@ -213,7 +202,7 @@ export default function Home() {
     <div className="flex flex-col h-screen w-full">
       <Head>
         <title>window.ai Generative 3D</title>
-        <meta property="og:image" content={imageThumbail} />
+        <meta property="og:image" content={imageThumbnail} />
       </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
