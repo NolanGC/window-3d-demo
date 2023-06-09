@@ -19,6 +19,12 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 
+
+const meta = {
+  cardImage: "https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png"
+};
+
+
 export default function Home() {
   const shadToast = useToast();
   const toastShad = shadToast.toast;
@@ -200,6 +206,23 @@ export default function Home() {
   };
   return (
     <div className="flex flex-col h-screen w-full">
+       <Head>
+        <title>test</title>
+        <meta content='test' name="description" />
+        <meta
+          property="og:url"
+          content="https://window-3d-demo.vercel.app"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content='test' />
+        <meta property="og:description" content='test' />
+        <meta property="og:title" content='test' />
+        <meta property="og:image" content={meta.cardImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content='test' />
+        <meta name="twitter:description" content='test' />
+        <meta name="twitter:image" content={meta.cardImage} />
+      </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
           <div className="w-full md:w-1/2 h-2/3 overflow-auto p-1 md:ml-10 md:mt-10 -mb-20">
