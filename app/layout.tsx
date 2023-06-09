@@ -37,6 +37,7 @@ const meta = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
+    <html lang="en" suppressHydrationWarning>
     <Head>
         <title>{metadata.title}</title>
         <meta name="robots" content="follow, index" />
@@ -52,13 +53,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta property="og:title" content={metadata.title} />
         <meta property="og:image" content={meta.cardImage} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@vercel" />
         <meta name="twitter:title" content={metadata.title} />
         <meta name="twitter:description" content={metadata.description} />
         <meta name="twitter:image" content={meta.cardImage} />
       </Head>
-      <html lang="en" suppressHydrationWarning>
-        <head />
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
