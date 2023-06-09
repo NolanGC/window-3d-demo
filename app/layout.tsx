@@ -44,7 +44,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta content={metadata.description} name="description" />
         <meta
           property="og:url"
-          content={`https://window-3d-demo.vercel.app${router.asPath}`}
+          content="https://window-3d-demo.vercel.app"
         />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={metadata.title} />
