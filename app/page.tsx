@@ -24,7 +24,6 @@ export default function Home() {
   const toastShad = shadToast.toast;
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-
   const [objectLink, setObjectLink] = useState<string | null>(
     "A chair shaped like an avocado.ply"
   );
