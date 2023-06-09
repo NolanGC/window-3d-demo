@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: {
@@ -29,10 +30,33 @@ export const metadata: Metadata = {
 interface RootLayoutProps {
   children: React.ReactNode
 }
+const meta = {
+  cardImage: "https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png"
+};
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
+    <Head>
+        <title>{metadata.title}</title>
+        <meta name="robots" content="follow, index" />
+        <link href="/favicon.ico" rel="shortcut icon" />
+        <meta content={metadata.description} name="description" />
+        <meta
+          property="og:url"
+          content={`https://window-3d-demo.vercel.app${router.asPath}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={metadata.title} />
+        <meta property="og:description" content={metadata.description} />
+        <meta property="og:title" content={metadata.title} />
+        <meta property="og:image" content={meta.cardImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@vercel" />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.description} />
+        <meta name="twitter:image" content={meta.cardImage} />
+      </Head>
       <html lang="en" suppressHydrationWarning>
         <head />
         <body
