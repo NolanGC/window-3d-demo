@@ -1,7 +1,6 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
 
-import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
@@ -9,51 +8,49 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Head from 'next/head';
+import { PropsWithChildren } from 'react';
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
+interface PageMeta {
+  title: string;
+  description: string;
+  cardImage: string;
 }
 
-interface RootLayoutProps {
-  children: React.ReactNode
-}
-const meta = {
-  cardImage: "https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png"
-};
 
-export default function RootLayout({ children }: RootLayoutProps) {
+
+interface Props extends PropsWithChildren {
+  meta?: PageMeta;
+}
+
+
+export default function RootLayout({ children, meta: pageMeta }: Props) {
+  const meta = {
+    title: 'OpenRouter',
+    description: 'Authenticate and use your AI models in one place',
+    cardImage: 'https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png',
+    ...pageMeta
+  };
   return (
     <>
+    <html lang="en" suppressHydrationWarning={true}/>
     <Head>
-        <title>{metadata.title}</title>
+        <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
         <link href="/favicon.ico" rel="shortcut icon" />
-        <meta content={metadata.description} name="description" />
+        <meta content={meta.description} name="description" />
         <meta
           property="og:url"
-          content="https://window-3d-demo.vercel.app"
+          content="https://openrouter.ai"
         />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={metadata.title} />
-        <meta property="og:description" content={metadata.description} />
-        <meta property="og:title" content={metadata.title} />
+        <meta property="og:site_name" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta property="og:title" content={meta.title} />
         <meta property="og:image" content={meta.cardImage} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:description" content={metadata.description} />
+        <meta name="twitter:site" content="@vercel" />
+        <meta name="twitter:title" content={meta.title} />
+        <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.cardImage} />
       </Head>
         <body
@@ -71,7 +68,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </ThemeProvider>
           <Toaster />
         </body>
-
+        <html/>
     </>
   )
 }
