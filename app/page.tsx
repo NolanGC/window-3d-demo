@@ -202,11 +202,11 @@ export default function Home() {
     <div className="flex flex-col h-screen w-full">
       <Head>
           <title>window.ai Generative 3D</title>
-          <meta property="twitter:card" content="summary_large_image"/>
-          <meta property="twitter:url" content="https://your-website-url.com"/>
-          <meta property="twitter:title" content="Your Website Title"/>
-          <meta property="twitter:description" content="Your Website Description"/>
-          <meta property="twitter:image" content="https://i.ibb.co/2hQNz6K/Screen-Shot-2023-05-31-at-4-35-02-PM.png"/>
+          <meta name="twitter:card" content="summary_large_image"/>
+          <meta name="twitter:url" content="https://your-website-url.com"/>
+          <meta name="twitter:title" content="Your Website Title"/>
+          <meta name="twitter:description" content="Your Website Description"/>
+          <meta name="twitter:image" content="https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png"/>
       </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
