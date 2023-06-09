@@ -24,8 +24,15 @@ export const metadata: Metadata = {
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
+  twitter: { 
+    card: "summary_large_image",
+    site: "@site",
+    creator: "@creator",
+    title: "Title of the card",
+    description: "Description of the card",
+    "images": "https://example.com/og.png"
+  },
   robots: "index, follow",
-  twitter: { card: "summary_large_image", site: "@site", creator: "@creator", "images": "https://example.com/og.png" },
 }
 
 interface RootLayoutProps {

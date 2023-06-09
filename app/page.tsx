@@ -17,7 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Metadata, ResolvingMetadata } from 'next'
 import { useToast } from "@/components/ui/use-toast";
+
+// export async function generateMetadata(): Promise<Metadata> {
+//   return {
+//     title: "3D Object Generator",
+//     description: "Generate 3D objects from text.",
+//   };
+// }
 
 export default function Home() {
   const shadToast = useToast();
