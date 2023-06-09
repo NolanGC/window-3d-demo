@@ -201,8 +201,12 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen w-full">
       <Head>
-        <title>window.ai Generative 3D</title>
-        <meta property="og:image" content='default.png' />
+          <title>window.ai Generative 3D</title>
+          <meta property="twitter:card" content="summary_large_image"/>
+          <meta property="twitter:url" content="https://your-website-url.com"/>
+          <meta property="twitter:title" content="Your Website Title"/>
+          <meta property="twitter:description" content="Your Website Description"/>
+          <meta property="twitter:image" content="https://i.ibb.co/2hQNz6K/Screen-Shot-2023-05-31-at-4-35-02-PM.png"/>
       </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
