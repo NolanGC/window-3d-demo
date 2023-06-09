@@ -27,7 +27,8 @@ export default function RootLayout({ children, meta: pageMeta }: Props) {
   const meta = {
     title: 'OpenRouter',
     description: 'Authenticate and use your AI models in one place',
-    cardImage: 'https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png',
+    //cardImage: 'https://storage.googleapis.com/window-objects/Screen%20Shot%202023-06-09%20at%208.48.58%20AM.png',
+    cardImage: '/og.png',
     ...pageMeta
   };
   return (
