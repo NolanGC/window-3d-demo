@@ -36,26 +36,32 @@ const meta = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <>
-    <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
-        >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1">{children}</div>
-            </div>
-            <TailwindIndicator />
-          </ThemeProvider>
-          <Toaster />
-        </body>
-        
-      </html>
-
-    </>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <div className={cn(
+        "min-h-screen bg-background font-sans antialiased",
+        fontSans.variable
+      )}>
+        <Head>
+          <title>test</title>
+          <meta content='test' name="description" />
+          <meta property="og:url" content="https://window-3d-demo.vercel.app" />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content='test' />
+          <meta property="og:description" content='test' />
+          <meta property="og:title" content='test' />
+          <meta property="og:image" content={meta.cardImage} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content='test' />
+          <meta name="twitter:description" content='test' />
+          <meta name="twitter:image" content={meta.cardImage} />
+        </Head>
+        <SiteHeader />
+        <div className="relative flex flex-1">
+          {children}
+        </div>
+        <TailwindIndicator />
+        <Toaster />
+      </div>
+    </ThemeProvider>
   )
 }
