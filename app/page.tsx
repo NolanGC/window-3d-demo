@@ -202,7 +202,7 @@ export default function Home() {
     <div className="flex flex-col h-screen w-full">
       <Head>
         <title>window.ai Generative 3D</title>
-        <meta property="og:image" content={imageThumbnail} />
+        <meta property="og:image" content='default.png' />
       </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">

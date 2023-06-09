@@ -38,8 +38,7 @@
     const itemsPerPage = 9;
     const itemsPerRow = isMobile ? 1 : 3;
     const router = useRouter();
-    const [preloadedRow, setPreloadedRow] = useState(0);
-    const { toast } = useToast();
+
 
     const handleInspectClick = (id: any) => {
       router.push(`/?id=${id}`);
