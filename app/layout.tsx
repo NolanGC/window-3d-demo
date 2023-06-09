@@ -23,7 +23,7 @@ interface Props extends PropsWithChildren {
 }
 
 
-export default function RootLayout({ children, meta: pageMeta }: Props) {
+export default function Layout({ children, meta: pageMeta }: Props) {
   const meta = {
     title: 'OpenRouter',
     description: 'Authenticate and use your AI models in one place',
