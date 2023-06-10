@@ -37,11 +37,7 @@ export const metadata = {
   metadataBase: new URL("https://window-3d-demo.vercel.app/"),
 };
 
-interface RootLayoutProps {
-  children: React.ReactNode
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function Layout({ children }) {
   return (
       <html lang="en" suppressHydrationWarning>
         <Head>
