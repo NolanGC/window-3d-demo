@@ -10,6 +10,10 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
