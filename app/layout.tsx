@@ -37,6 +37,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <title>Window</title>
+        </head>
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
