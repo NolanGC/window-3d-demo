@@ -27,27 +27,6 @@ import { useToast } from "@/components/ui/use-toast";
 //   };
 // }
 
-export const metadata: Metadata = {
-  openGraph: {
-    title: "test",
-    description: "test",
-  },
-  title: {
-    default: "test",
-    template: `%s - ${"test"}`,
-  },
-  description: "test",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
-}
-
 export default function Home() {
   const shadToast = useToast();
   const toastShad = shadToast.toast;
