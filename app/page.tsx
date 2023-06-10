@@ -207,9 +207,6 @@ export default function Home() {
   };
   return (
     <>
-    <head>
-        <title>Window</title>
-    </head>
     <div className="flex flex-col h-screen w-full">
       
       <Card className="h-full">
