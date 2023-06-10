@@ -30,16 +30,13 @@ import Head  from "next/head"
 //   },
 // }
 
-export const metadata = {
-  title: "NextGram",
-  description:
-    "A sample Next.js app showing dynamic routing with modals as a route.",
-  metadataBase: new URL("https://window-3d-demo.vercel.app/"),
-};
 
 export default function Layout({ children }) {
   return (
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <title>Yo</title>
+        </head>
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
