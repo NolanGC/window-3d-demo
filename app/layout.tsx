@@ -1,6 +1,5 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
-
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
@@ -11,14 +10,14 @@ import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   openGraph: {
-    title: siteConfig.name,
-    description: siteConfig.description,
+    title: "test",
+    description: "test",
   },
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: "test",
+    template: `%s - ${"test"}`,
   },
-  description: siteConfig.description,
+  description: "test",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
