@@ -25,6 +25,7 @@
     "@react-three/drei": "^9.70.1",
     "@react-three/fiber": "^8.13.0",
     "@vercel/node": "^2.14.4",
+    "@vercel/og": "^0.5.7",
     "@vercel/postgres": "^0.3.0",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",

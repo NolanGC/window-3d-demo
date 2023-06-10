@@ -9,31 +9,6 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
-  twitter: { 
-    card: "summary_large_image",
-    site: "@site",
-    creator: "@creator",
-    title: "Title of the card",
-    description: "Description of the card",
-    "images": "https://example.com/og.png"
-  },
-  robots: "index, follow",
-}
 
 interface RootLayoutProps {
   children: React.ReactNode
