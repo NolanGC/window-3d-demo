@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function uploadCreation(creation : NewCreation) {
+export async function uploadCreation(creation : any) {
   const response = await fetch("/api/creations", {
     method: "POST",
     headers: {
@@ -14,10 +14,6 @@ export async function uploadCreation(creation : NewCreation) {
     },
     body: JSON.stringify(creation),
   });
-  const insertedCreation = await response.json();
-  return insertedCreation;
-}
-
-export function getWindowToast() {
-  
+  const insertedCreationResponse = await response.json();
+  return insertedCreationResponse;
 }

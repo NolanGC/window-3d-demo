@@ -1,4 +1,4 @@
-async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: RequestInfo | URL, prompt: string) {
+export async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: RequestInfo | URL, prompt: string) {
     // Convert the data URI to a Blob
     const response = await fetch(dataUri);
     const blob = await response.blob();
@@ -21,7 +21,7 @@ async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: RequestInfo |
     return publicUrl;
 }
 
-async function getSignedURL(filename: string) {
+export async function getSignedURL(filename: string) {
     const signedurlResponse = await fetch("/api/generateSignedUrl", {
         method: "POST",
         headers: {
@@ -32,6 +32,6 @@ async function getSignedURL(filename: string) {
     if (!signedurlResponse.ok) {
         throw new Error("Could not get signed URL.");
     }
-    const signedUrl = await signedurlResponse.json();
-    return signedUrl;
+    const signedUrlResponse = await signedurlResponse.json();
+    return signedUrlResponse;
 }

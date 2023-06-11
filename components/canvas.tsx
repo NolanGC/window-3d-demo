@@ -3,6 +3,7 @@ import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
 import { Html, Loader, ArcballControls, PerspectiveCamera } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import { BufferGeometry } from 'three';
+import { getSignedURL, uploadToGcs } from '@/lib/gcs';
 
 interface ModelProps {
   url: string;
