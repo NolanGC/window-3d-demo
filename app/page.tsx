@@ -10,10 +10,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Head from "next/head"
 import { Loader } from "lucide-react";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { uploadCreation } from "@/lib/utils";
-
 
 export default function IndexPage() {
   const [objectLink, setObjectLink] = useState<string | null>(
@@ -167,6 +167,9 @@ export default function IndexPage() {
 
    return (
     <div className="flex flex-col h-screen w-full">
+      <Head>
+        <title>Window</title>
+      </Head>
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
           <div className="w-full md:w-1/2 h-2/3 overflow-auto p-1 md:ml-10 md:mt-10 -mb-20">
