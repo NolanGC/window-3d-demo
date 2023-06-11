@@ -1,11 +1,10 @@
   "use client";
-  import React, { useState, useEffect, use } from "react";
+  import React, { useState, useEffect } from "react";
   import { Button } from "@/components/ui/button";
   import { Loader } from "lucide-react";
   import { Table, TableCell, TableRow } from "@/components/ui/table";
   import CanvasComponent from "@/components/canvas";
   import { InView } from 'react-intersection-observer';
-  import { useToast } from "@/components/ui/use-toast";
   import {
     Card,
     CardContent,

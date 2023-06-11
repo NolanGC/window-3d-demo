@@ -245,43 +245,96 @@
 //   );
 // }
 "use client";
-import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
+import { getWindowAI } from "window.ai";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function IndexPage() {
+  const [objectLink, setObjectLink] = useState<string | null>(
+    "A chair shaped like an avocado.ply"
+  );
+  const [inputText, setInputText] = useState("");
+  const [shareLink, setShareLink] = useState<string>("");
+  const [generating, setGenerating] = useState<boolean>(false);
+  const [loadingPreset, setLoadingPreset] = useState<boolean>(false);
+  const [numInferenceSteps, setNumInferenceSteps] = useState<number>(32);
+  const [imageThumbnail, setImageThumbnail] = useState<string | null>("");
+  const shadToaster = useToast();
+  const toastShad = shadToaster.toast;
+  const searchParams = useSearchParams();
+  
+  const id = searchParams.get("id");
+  const ai = useRef<any>(null);
+
+  const getWindowToast = () => {
+    toast.custom(
+      <div className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center space-x-2">
+        <div>Please install the</div>
+        <a
+          href="https://chrome.google.com/webstore/detail/window-ai/cbhbgmdpcoelfdoihppookkijpmgahag"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline font-semibold"
+        >
+          window.ai extension
+        </a>
+        <div> to get started!</div>
+      </div>, {
+        id: 'window-ai-not-detected',
+      }
+    );
+  }
+
+  const populateFromID = () => {
+    setLoadingPreset(true);
+      fetch(`/api/find?id=${id}`, {
+        // Use the /find endpoint with the 'id' parameter
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            setInputText(data[0].prompt);
+            setObjectLink(data[0].data_uri);
+            setImageThumbnail(data[0].image_thumbnail);
+          }
+        })
+        .catch((error) => console.error("Failed to fetch item:", error))
+        .finally(() => {
+          setLoadingPreset(false);
+        });
+      setShareLink(window.location.href);
+  }
+
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const windowAI = await getWindowAI();
+        ai.current = windowAI;
+        toastShad({ title: "window.ai detected." });
+      } catch (error) {
+        getWindowToast();
+      }
+    };
+    init();
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      populateFromID();
+    }
+  }, [id]);
+
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Beautifully designed components <br className="hidden sm:inline" />
-          built with Radix UI and Tailwind CSS.
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Accessible and customizable components that you can copy and paste
-          into your apps. Free. Open Source. And Next.js 13 Ready.
-        </p>
-      </div>
-      <div className="flex gap-4">
-        <Link
-          href={siteConfig.links.github}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonVariants()}
-        >
-          Documentation
-        </Link>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
-      </div>
-    </section>
+    <>
+    <Toaster></Toaster>
+    </>
   )
 }
 
