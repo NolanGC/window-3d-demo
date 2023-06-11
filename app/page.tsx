@@ -169,7 +169,11 @@ export default function IndexPage() {
     <>
     <head>
         <title>Window</title>
-      </head>
+        <meta
+          property="og:image"
+          content="https://window-3d-demo.vercel.app/api/og"
+        />
+    </head>
     <div className="flex flex-col h-screen w-full">
       
       <Card className="h-full">
