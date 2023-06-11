@@ -251,7 +251,16 @@ import toast, { Toaster } from 'react-hot-toast';
 import { getWindowAI } from "window.ai";
 import { useToast } from "@/components/ui/use-toast";
 
-export default function IndexPage() {
+type Props = {
+  params?: {
+    num?: string;
+  };
+  searchParams?: {
+    search?: string;
+  };
+};
+
+export default function IndexPage(props: Props) {
   const [objectLink, setObjectLink] = useState<string | null>(
     "A chair shaped like an avocado.ply"
   );
@@ -264,9 +273,9 @@ export default function IndexPage() {
   const shadToaster = useToast();
   const toastShad = shadToaster.toast;
   const searchParams = useSearchParams();
-  
-  const id = searchParams.get("id");
   const ai = useRef<any>(null);
+
+  const id = props.searchParams?.search?.split("=")[1];
 
   const getWindowToast = () => {
     toast.custom(
