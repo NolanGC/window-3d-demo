@@ -171,7 +171,7 @@ export default function IndexPage() {
         <title>Window</title>
         <meta
           property="og:image"
-          content="https://window-3d-demo.vercel.app/api/og"
+          content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}
         />
     </head>
     <div className="flex flex-col h-screen w-full">
