@@ -18,13 +18,6 @@
 // } from "@/components/ui/select";
 // import { useToast } from "@/components/ui/use-toast";
 
-// // export async function generateMetadata(): Promise<Metadata> {
-// //   return {
-// //     title: "3D Object Generator",
-// //     description: "Generate 3D objects from text.",
-// //   };
-// // }
-
 // export default function Home() {
 //   const shadToast = useToast();
 //   const toastShad = shadToast.toast;
@@ -251,7 +244,7 @@
 //     </div>
 //   );
 // }
-
+"use client";
 import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
