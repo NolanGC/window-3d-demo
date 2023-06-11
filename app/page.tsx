@@ -167,9 +167,9 @@ export default function IndexPage() {
 
    return (
     <>
-    <Head>
+    <head>
         <title>Window</title>
-      </Head>
+      </head>
     <div className="flex flex-col h-screen w-full">
       
       <Card className="h-full">
