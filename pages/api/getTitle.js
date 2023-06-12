@@ -5,6 +5,9 @@ import { eq } from "drizzle-orm";
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     const { id } = req.query;
+    if(!id) {
+        return "window.ai Generative 3D Demo"
+    }
     try {
       const creation = await db
         .select()
