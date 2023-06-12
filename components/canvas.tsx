@@ -34,7 +34,7 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
     if(progress == 100 && !screenShotted){
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
       onModelLoaded(screenshotDataUri);
-      setModelLoaded(false);
+      setScreenShotted(true);
     }
   },[progress, screenShotted]);
 
