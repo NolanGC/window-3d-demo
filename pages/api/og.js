@@ -21,18 +21,18 @@ export default async function handler(request) {
       });
     }
     else {
-      const databaseItem = await fetch(`https://window-3d-demo.vercel.app/api/find?id=${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      // const databaseItem = await fetch(`https://window-3d-demo.vercel.app/api/find?id=${id}`, {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
       //console.log("database item")
-      const databaseItemJson = await databaseItem.json();
+      // const databaseItemJson = await databaseItem.json();
       //console.log(Object.keys(databaseItemJson[0]))
-      const imageThumbnail = databaseItemJson[0].thumbnail_uri;
+      // const imageThumbnail = databaseItemJson[0].thumbnail_uri;
       return new ImageResponse(
-        <img src={imageThumbnail}/>
+        <img src="https://i.imgur.com/DMcWUu0.png"/>
       )
     }
   } catch (error) {
