@@ -28,13 +28,12 @@ export default function IndexPage(props: Props) {
   const [inputText, setInputText] = useState<string>(props.inputText);
   const [shareLink, setShareLink] = useState<string>(props.shareLink);
   const [generating, setGenerating] = useState<boolean>(false);
-  const [numInferenceSteps, setNumInferenceSteps] = useState<number>(32);
+  const [numInferenceSteps, setNumInferenceSteps] = useState<number>(16);
   const shadToaster = useToast();
   const toastShad = shadToaster.toast;
   const ai = useRef<any>(null);
   const id = props.id
   const title = props.title
-
   
   const handleDownload = () => {
     const link = document.createElement("a");
@@ -65,8 +64,7 @@ export default function IndexPage(props: Props) {
       const filename = `${inputText}.ply`;
       // Store the generated object in the DB using the API endpoint
       const data_uri = output[0].uri;
-      const signedurlResponse= await getSignedURL(filename);
-      const { signedUrl } = await signedurlResponse.json();
+      const signedUrl = await getSignedURL(filename);
       // Upload the data URI to GCS
       await uploadToGcs(data_uri, signedUrl, filename);
       // Now the data URI is the public URL of the uploaded file
@@ -82,16 +80,14 @@ export default function IndexPage(props: Props) {
     
     const handleScreenShotAndUpload = async (screenshotData: any) => {
       try {
-          //upload to gcs
-          const filename = `${inputText}_thumbnail.png`;
-          const signedurlResponse= await getSignedURL(filename);
-          const { signedUrl } = await signedurlResponse.json();
-          // Upload the data URI to GCS
-          await uploadToGcs(screenshotData, signedUrl, filename);
+          if(generating){
+            const filename = `${inputText}_thumbnail.png`;
+            const signedUrl = await getSignedURL(filename);
+            // Upload the data URI to GCS
+            await uploadToGcs(screenshotData, signedUrl, filename);
             // Now the data URI is the public URL of the uploaded file
             const bucketName = "window-objects";
             const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
-          if(generating){
             const newCreation = {
               prompt: inputText,
               thumbnail_uri: publicUrl,
@@ -122,7 +118,6 @@ export default function IndexPage(props: Props) {
     init();
   }, []);
 
-
    return (
     <>
     <head>
@@ -137,7 +132,6 @@ export default function IndexPage(props: Props) {
         <meta property="twitter:description" content="3D model generated with shap-e via window.ai"></meta>
     </head>
     <div className="flex flex-col h-screen w-full">
-      
       <Card className="h-full">
         <CardContent className="flex flex-col md:flex-row h-full">
           <div className="w-full md:w-1/2 h-2/3 overflow-auto p-1 md:ml-10 md:mt-10 -mb-20">
@@ -151,7 +145,7 @@ export default function IndexPage(props: Props) {
             <div className="mb-5">
               <Select
                 onValueChange={(value) => setNumInferenceSteps(parseInt(value))}
-                defaultValue="32"
+                defaultValue="16"
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Quality " />

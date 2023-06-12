@@ -31,6 +31,6 @@ export async function getSignedURL(filename: string) {
     if (!signedurlResponse.ok) {
         throw new Error("Could not get signed URL.");
     }
-    const signedUrlResponse = await signedurlResponse.json();
-    return signedUrlResponse;
+    const { signedUrl } = await signedurlResponse.json();
+    return signedUrl;
 }
