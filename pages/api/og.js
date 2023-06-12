@@ -16,7 +16,7 @@ const fallback = new ImageResponse(
     justifyContent: 'center',
     flexDirection: 'column',
     backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-    fontSize: 60,
+    fontSize: 80,
     letterSpacing: -2,
     fontWeight: 700,
     textAlign: 'center',
@@ -81,7 +81,7 @@ export default async function handler(request) {
       return new ImageResponse(<img src={imageThumbnail}/>, {
         width: 1200,
         height: 630,
-        fit: 'cover',
+        fit: 'contain',
       });
     }
   } catch (error) {
