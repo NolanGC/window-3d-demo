@@ -121,14 +121,14 @@ export default function IndexPage(props: Props) {
    return (
     <>
     <head>
-        <title>{title}</title>
+        <title>{title} - generated with window.ai</title>
         <meta
           property="og:image"
           content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}
         />
         <meta property="twitter:image" content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}></meta>
         <meta property="twitter:card" content="summary_large_image"></meta>
-        <meta property="twitter:title" content={title}></meta>
+        <meta property="twitter:title" content={`${title}- generated with window.ai`}></meta>
         <meta property="twitter:description" content="3D model generated with shap-e via window.ai"></meta>
     </head>
     <div className="flex flex-col h-screen w-full">
