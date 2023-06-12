@@ -28,16 +28,17 @@ export default function IndexPage() {
   const shadToaster = useToast();
   const toastShad = shadToaster.toast;
   const ai = useRef<any>(null);
-  var id = ""
-  try {
-    const searchParams = useSearchParams();
-    id = searchParams.get("id");
-    console.log("ID", id);
-  }
-  catch (error) {
-    console.log("ERROR", error);
-    console.log(error);
-  }
+  // var id = ""
+  // try {
+  //   const searchParams = useSearchParams();
+  //   id = searchParams.get("id");
+  //   console.log("ID", id);
+  // }
+  // catch (error) {
+  //   console.log("ERROR", error);
+  //   console.log(error);
+  // }
+  const id = 36;
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = objectLink as string;
