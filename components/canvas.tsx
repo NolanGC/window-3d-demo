@@ -15,6 +15,7 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   const { gl } = useThree(); // Access the WebGL context
   const { progress } = useProgress()
   const [modelLoaded, setModelLoaded] = useState(false);
+  const [screenShotted, setScreenShotted] = useState(false);
 
   // useEffect(() => {
   //   mesh.computeVertexNormals();
@@ -30,11 +31,12 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   },[]);
 
   useEffect(() => {
-    if(progress == 100){
+    if(progress == 100 && !screenShotted){
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
       onModelLoaded(screenshotDataUri);
+      setModelLoaded(false);
     }
-  },[progress]);
+  },[progress, screenShotted]);
 
   // useFrame(() => {
   //   if (modelLoaded) {
