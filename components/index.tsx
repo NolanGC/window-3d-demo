@@ -15,7 +15,7 @@ import { Loader } from "lucide-react";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { uploadCreation } from "@/lib/utils";
 
-export default function IndexPage(props: { id: any; }) {
+export default function IndexPage(props: { id: any; title: string;}) {
   const [objectLink, setObjectLink] = useState<string | null>(
     "A chair shaped like an avocado.ply"
   );
@@ -29,6 +29,7 @@ export default function IndexPage(props: { id: any; }) {
   const toastShad = shadToaster.toast;
   const ai = useRef<any>(null);
   const id = props.id
+  const title = props.title
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = objectLink as string;
@@ -98,16 +99,16 @@ export default function IndexPage(props: { id: any; }) {
         extension: "application/x-ply",
         numInferenceSteps: numInferenceSteps,
       });
+      const filename = `${inputText}.ply`;
       // Store the generated object in the DB using the API endpoint
       const data_uri = output[0].uri;
-      const signedurlResponse= await getSignedURL(inputText);
+      const signedurlResponse= await getSignedURL(filename);
       const { signedUrl } = await signedurlResponse.json();
       // Upload the data URI to GCS
-      await uploadToGcs(data_uri, signedUrl, inputText);
+      await uploadToGcs(data_uri, signedUrl, filename);
       // Now the data URI is the public URL of the uploaded file
-      const fileName = `${inputText}.ply`;
       const bucketName = "window-objects";
-      const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;  
+      const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;  
       setObjectLink(publicUrl);
     } catch (error) {
       console.error(error);
@@ -118,13 +119,21 @@ export default function IndexPage(props: { id: any; }) {
     
     const handleScreenShotAndUpload = async (screenshotData: any) => {
       try {
+          //upload to gcs
+          const filename = `${inputText}_thumbnail.png`;
+          const signedurlResponse= await getSignedURL(filename);
+          const { signedUrl } = await signedurlResponse.json();
+          // Upload the data URI to GCS
+          await uploadToGcs(screenshotData, signedUrl, filename);
+            // Now the data URI is the public URL of the uploaded file
+            const bucketName = "window-objects";
+            const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
           if(generating){
             const newCreation = {
               prompt: inputText,
-              thumbnail_uri: screenshotData,
+              thumbnail_uri: publicUrl,
               data_uri: objectLink,
             };
-            console.log(newCreation)
             const insertedCreationResponse = await uploadCreation(newCreation);
             setShareLink(window.location.href + "?id=" + insertedCreationResponse.id);
             setGenerating(false);
@@ -166,7 +175,7 @@ export default function IndexPage(props: { id: any; }) {
         />
         <meta property="twitter:image" content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}></meta>
         <meta property="twitter:card" content="summary_large_image"></meta>
-        <meta property="twitter:title" content={`https://window-3d-demo.vercel.app/api/getTitle?id=${id}`}></meta>
+        <meta property="twitter:title" content={title}></meta>
         <meta property="twitter:description" content="3D model generated with shap-e via window.ai"></meta>
     </head>
     <div className="flex flex-col h-screen w-full">

@@ -1,4 +1,4 @@
-export async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: RequestInfo | URL, prompt: string) {
+export async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: RequestInfo | URL, filename: string) {
     // Convert the data URI to a Blob
     const response = await fetch(dataUri);
     const blob = await response.blob();
@@ -15,9 +15,8 @@ export async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: Reques
         throw new Error("Could not upload file.");
     }
 
-    const fileName = `${prompt}.ply`;
     const bucketName = "window-objects";
-    const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+    const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
     return publicUrl;
 }
 
@@ -27,7 +26,7 @@ export async function getSignedURL(filename: string) {
         headers: {
         "Content-Type": "application/json",
         },
-        body: JSON.stringify({ filename: `${filename}.ply` }),
+        body: JSON.stringify({ filename: filename }),
     });
     if (!signedurlResponse.ok) {
         throw new Error("Could not get signed URL.");
