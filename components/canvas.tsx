@@ -23,7 +23,7 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   useFrame(() => {
     if (modelLoaded) {
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
-      //console.log("taking screenshot of", url, "uri is")
+      //save image as png
       //console.log(screenshotDataUri)
       onModelLoaded(screenshotDataUri);
       setModelLoaded(false);
