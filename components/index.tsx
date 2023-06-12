@@ -29,16 +29,6 @@ export default function IndexPage(props: { id: any; }) {
   const toastShad = shadToaster.toast;
   const ai = useRef<any>(null);
   const id = props.id
-  // var id = ""
-  // try {
-  //   const searchParams = useSearchParams();
-  //   id = searchParams.get("id");
-  //   console.log("ID", id);
-  // }
-  // catch (error) {
-  //   console.log("ERROR", error);
-  //   console.log(error);
-  // }
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = objectLink as string;
@@ -125,7 +115,7 @@ export default function IndexPage(props: { id: any; }) {
       setGenerating(false);
     }
   };
-
+    
     const handleScreenShotAndUpload = async (screenshotData: any) => {
       try {
           if(generating){
@@ -176,8 +166,8 @@ export default function IndexPage(props: { id: any; }) {
         />
         <meta property="twitter:image" content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}></meta>
         <meta property="twitter:card" content="summary_large_image"></meta>
-        <meta property="twitter:title" content="Twitter link preview title"></meta>
-        <meta property="twitter:description" content="Twitter link preview description"></meta>
+        <meta property="twitter:title" content={`https://window-3d-demo.vercel.app/api/getTitle?id=${id}`}></meta>
+        <meta property="twitter:description" content="3D model generated with shap-e via window.ai"></meta>
     </head>
     <div className="flex flex-col h-screen w-full">
       

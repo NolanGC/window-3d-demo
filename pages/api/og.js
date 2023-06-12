@@ -5,6 +5,25 @@ import { NextRequest } from 'next/server';
 export const config = {
   runtime: 'edge',
 };
+
+const thumbnail = (uri) => {
+  return (
+    <div
+      style={{
+        width: 1200,
+        backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+        height: 630,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <img src={uri} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    </div>
+  )
+}
  
 const fallback = new ImageResponse(
   <div
@@ -74,15 +93,10 @@ export default async function handler(request) {
           "Content-Type": "application/json",
         },
       })
-      
       const databaseItemJson = await databaseItem.json();
       console.log(Object.keys(databaseItemJson[0]))
       const imageThumbnail = databaseItemJson[0].thumbnail_uri;
-      return new ImageResponse(<img src={imageThumbnail}/>, {
-        width: 1200,
-        height: 630,
-        fit: 'contain',
-      });
+      return new ImageResponse(thumbnail(imageThumbnail))
     }
   } catch (error) {
    console.error(error);
