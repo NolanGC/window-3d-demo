@@ -1,30 +1,34 @@
 import IndexPage from "@/components";
-import { useSearchParams } from "next/navigation";
 
-export default function Home({
+export default async function Home({
   params,
   searchParams,
 }: {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  var objectLink = "A chair shaped like an avocado.ply";
+  var inputText = "";
+  var shareLink = "";
+  const populateFromID = async () => {
+      return fetch(`https://window-3d-demo.vercel.app/api/find?id=${id}`, {
+        // Use the /find endpoint with the 'id' parameter
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  }
   const id = searchParams?.id;
   var title = "Generate 3D Objects with window.ai"
-  fetch(`/api/find?id=${id}`, {
-    // Use the /find endpoint with the 'id' parameter
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data) {
-        title = data[0].prompt;
-      }
-    })
-    .catch((error) => console.error("Failed to fetch item:", error))
+  if (id) {
+    const resp = await (await populateFromID()).json();
+    objectLink = resp[0].data_uri;
+    inputText = resp[0].prompt;
+    shareLink = `https://window-3d-demo.vercel.app/?id=${id}`;
+    title = inputText;
+  }
   return (
-    <IndexPage id={id} title={title} />
+    <IndexPage id={id} title={title} inputText={inputText} objectLink={objectLink} shareLink={shareLink} />
   )
 }

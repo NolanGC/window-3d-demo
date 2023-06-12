@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { useSearchParams } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
 import { getWindowAI } from "window.ai";
 import { useToast } from "@/components/ui/use-toast";
@@ -10,26 +9,33 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Head from "next/head"
 import { Loader } from "lucide-react";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { uploadCreation } from "@/lib/utils";
 
-export default function IndexPage(props: { id: any; title: string;}) {
-  const [objectLink, setObjectLink] = useState<string | null>(
-    "A chair shaped like an avocado.ply"
+type Props = {
+    id: string | string[] | undefined;
+    title: string;
+    objectLink: string;
+    inputText: string;
+    shareLink: string;
+}
+
+export default function IndexPage(props: Props) {
+  const [objectLink, setObjectLink] = useState<string>(
+    props.objectLink
   );
-  const [inputText, setInputText] = useState("");
-  const [shareLink, setShareLink] = useState<string>("");
+  const [inputText, setInputText] = useState<string>(props.inputText);
+  const [shareLink, setShareLink] = useState<string>(props.shareLink);
   const [generating, setGenerating] = useState<boolean>(false);
-  const [loadingPreset, setLoadingPreset] = useState<boolean>(false);
   const [numInferenceSteps, setNumInferenceSteps] = useState<number>(32);
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>("");
   const shadToaster = useToast();
   const toastShad = shadToaster.toast;
   const ai = useRef<any>(null);
   const id = props.id
   const title = props.title
+
+  
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = objectLink as string;
@@ -43,49 +49,6 @@ export default function IndexPage(props: { id: any; title: string;}) {
     navigator.clipboard.writeText(shareLink);
     toastShad({ description: "Copied link to clipboard." });
   };
-
-  const getWindowToast = () => {
-    toast.custom(
-      <div className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center space-x-2">
-        <div>Please install the</div>
-        <a
-          href="https://chrome.google.com/webstore/detail/window-ai/cbhbgmdpcoelfdoihppookkijpmgahag"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline font-semibold"
-        >
-          window.ai extension
-        </a>
-        <div> to get started!</div>
-      </div>, {
-        id: 'window-ai-not-detected',
-      }
-    );
-  }
-
-  const populateFromID = () => {
-    setLoadingPreset(true);
-      fetch(`/api/find?id=${id}`, {
-        // Use the /find endpoint with the 'id' parameter
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data) {
-            setInputText(data[0].prompt);
-            setObjectLink(data[0].data_uri);
-            setImageThumbnail(data[0].image_thumbnail);
-          }
-        })
-        .catch((error) => console.error("Failed to fetch item:", error))
-        .finally(() => {
-          setLoadingPreset(false);
-        });
-      setShareLink(window.location.href);
-  }
 
   const handleGenerate = async () => {
     const promptObject = { prompt: inputText };
@@ -159,16 +122,11 @@ export default function IndexPage(props: { id: any; title: string;}) {
     init();
   }, []);
 
-  useEffect(() => {
-     if (id) {
-       populateFromID();
-     }
-   }, [id]);
 
    return (
     <>
     <head>
-        <title>Window</title>
+        <title>{title}</title>
         <meta
           property="og:image"
           content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}
@@ -207,7 +165,7 @@ export default function IndexPage(props: { id: any; title: string;}) {
             </div>
             <div className="flex flex-row">
               <Button className="mr-3" onClick={handleGenerate}>
-                {!generating && !loadingPreset ? "Generate Model" : <Loader className="spin" />}
+                {!generating ? "Generate Model" : <Loader className="spin" />}
               </Button>
               <Button className="mr-3" onClick={handleDownload}>
                 Download Model
@@ -228,3 +186,21 @@ export default function IndexPage(props: { id: any; title: string;}) {
   );
 }
 
+const getWindowToast = () => {
+    toast.custom(
+      <div className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center space-x-2">
+        <div>Please install the</div>
+        <a
+          href="https://chrome.google.com/webstore/detail/window-ai/cbhbgmdpcoelfdoihppookkijpmgahag"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline font-semibold"
+        >
+          window.ai extension
+        </a>
+        <div> to get started!</div>
+      </div>, {
+        id: 'window-ai-not-detected',
+      }
+    );
+  }
