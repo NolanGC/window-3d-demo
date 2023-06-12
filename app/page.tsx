@@ -171,11 +171,11 @@ export default function IndexPage() {
         <title>Window</title>
         <meta
           property="og:image"
-          content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}
+          content={`/api/og?id=${id}`}
         />
-        <meta property="twitter:image" content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}></meta>
+        <meta property="twitter:image" content={`/api/og?id=${id}`}></meta>
         <meta property="twitter:card" content="summary_large_image"></meta>
-        <meta property="twitter:title" content="Twitter link preview title"></meta>
+        <meta property="twitter:title" content={`ID ${id}`}></meta>
         <meta property="twitter:description" content="Twitter link preview description"></meta>
     </head>
     <div className="flex flex-col h-screen w-full">
