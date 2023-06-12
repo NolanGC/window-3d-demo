@@ -81,6 +81,7 @@ export default async function handler(request) {
       return new ImageResponse(<img src={imageThumbnail}/>, {
         width: 1200,
         height: 630,
+        fit: 'cover',
       });
     }
   } catch (error) {
