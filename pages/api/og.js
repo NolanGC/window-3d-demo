@@ -15,7 +15,7 @@ export default async function handler(request) {
       : "no id provided"
     
     if (!hasId) {
-      return new ImageResponse(<>Visit with &quot;?username=vercel&quot;</>, {
+      return new ImageResponse(<img src="https://i.imgur.com/DMcWUu0.png"/>, {
         width: 1200,
         height: 630,
       });
@@ -31,13 +31,14 @@ export default async function handler(request) {
       // const databaseItemJson = await databaseItem.json();
       //console.log(Object.keys(databaseItemJson[0]))
       // const imageThumbnail = databaseItemJson[0].thumbnail_uri;
-      return new ImageResponse(
-        <img src="https://i.imgur.com/DMcWUu0.png"/>
-      )
+      return new ImageResponse(<img src="https://i.imgur.com/DMcWUu0.png"/>, {
+        width: 1200,
+        height: 630,
+      });
     }
   } catch (error) {
    console.error(error);
-   return new ImageResponse(<>Visit err &quot;?username=vercel&quot;</>, {
+   return new ImageResponse(<img src="https://i.imgur.com/DMcWUu0.png"/>, {
      width: 1200,
      height: 630,
    });
