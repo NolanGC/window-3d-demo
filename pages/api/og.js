@@ -13,7 +13,6 @@ export default async function handler(request) {
     const id = hasId
       ? searchParams.get('id')
       : "no id provided"
-    console.log(`http://localhost:3000/api/find?id=${id}`)
     
     if (!hasId) {
       return new ImageResponse(<>Visit with &quot;?username=vercel&quot;</>, {
@@ -22,7 +21,7 @@ export default async function handler(request) {
       });
     }
     else {
-      const databaseItem = await fetch(`http://localhost:3000/api/find?id=${id}`, {
+      const databaseItem = await fetch(`https://window-3d-demo.vercel.app/api/find?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
