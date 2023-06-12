@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
-import { Html, Loader, ArcballControls, PerspectiveCamera } from '@react-three/drei';
+import { Canvas, useLoader, useThree} from '@react-three/fiber';
+import { Html, Loader, ArcballControls, PerspectiveCamera, useProgress } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import { BufferGeometry } from 'three';
 import { getSignedURL, uploadToGcs } from '@/lib/gcs';
@@ -13,22 +13,37 @@ interface ModelProps {
 const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   const mesh = useLoader(PLYLoader, url);
   const { gl } = useThree(); // Access the WebGL context
+  const { progress } = useProgress()
   const [modelLoaded, setModelLoaded] = useState(false);
 
+  // useEffect(() => {
+  //   mesh.computeVertexNormals();
+  //   console.log("MODEL LOADED")
+  //   const screenshotDataUri = gl.domElement.toDataURL('image/png');
+  //   console.log("screenshot taken")
+  //   onModelLoaded(screenshotDataUri);
+  //   setModelLoaded(false);
+  //   //setModelLoaded(true);
+  // },[]);
   useEffect(() => {
     mesh.computeVertexNormals();
-    setModelLoaded(true);
   },[]);
 
-  useFrame(() => {
-    if (modelLoaded) {
+  useEffect(() => {
+    if(progress == 100){
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
-      //save image as png
-      //console.log(screenshotDataUri)
       onModelLoaded(screenshotDataUri);
-      setModelLoaded(false);
     }
-  });
+  },[progress]);
+
+  // useFrame(() => {
+  //   if (modelLoaded) {
+  //     const screenshotDataUri = gl.domElement.toDataURL('image/png');
+  //     console.log("screenshot taken")
+  //     onModelLoaded(screenshotDataUri);
+  //     setModelLoaded(false);
+  //   }
+  // });
 
   return (
     <mesh geometry={mesh as BufferGeometry} scale={[2, 2, 2]}>
