@@ -35,9 +35,9 @@ const fallback = new ImageResponse(
     justifyContent: 'center',
     flexDirection: 'column',
     backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
-    fontSize: 80,
+    fontSize: 90,
     letterSpacing: -2,
-    fontWeight: 700,
+    fontWeight: 1000,
     textAlign: 'center',
   }}
   >
