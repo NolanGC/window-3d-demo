@@ -16,10 +16,6 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <Head>
-        <link rel="icon" type="image/svg+xml" href="/image/favicon.svg"/>
-        <link rel="icon" type="image/png" href="/image/favicon.png"/>
-      </Head>
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
