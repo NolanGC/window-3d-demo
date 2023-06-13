@@ -24,12 +24,12 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   },[]);
 
   useFrame(() => {
-    if (modelLoaded) {
+    setTimeout(() => {
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
       console.log(screenshotDataUri)
       onModelLoaded(screenshotDataUri);
       setModelLoaded(false);
-    }
+    }, 1000);
   });
 
   return (
