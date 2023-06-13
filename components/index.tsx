@@ -83,16 +83,18 @@ export default function IndexPage(props: Props) {
           console.log("check if generating")
           if(generating){
             console.log("uploading")
+            console.log(screenshotData)
+            
             const filename = `${inputText}_thumbnail.png`;
             const signedUrl = await getSignedURL(filename);
             // Upload the data URI to GCS
             await uploadToGcs(screenshotData, signedUrl, filename);
             // Now the data URI is the public URL of the uploaded file
             const bucketName = "window-objects";
-            const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
+            const thumbnailUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
             const newCreation = {
               prompt: inputText,
-              thumbnail_uri: publicUrl,
+              thumbnail_uri: thumbnailUrl,
               data_uri: objectLink,
             };
             const insertedCreationResponse = await uploadCreation(newCreation);

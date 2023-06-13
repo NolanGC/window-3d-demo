@@ -1,5 +1,6 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import { Canvas, useLoader, useThree} from '@react-three/fiber';
+"use client";
+import React, { Suspense, useEffect, useState} from 'react';
+import { Canvas, useLoader, useThree, useFrame} from '@react-three/fiber';
 import { Html, Loader, ArcballControls, PerspectiveCamera, useProgress } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import { BufferGeometry } from 'three';
@@ -13,39 +14,23 @@ interface ModelProps {
 const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   const mesh = useLoader(PLYLoader, url);
   const { gl } = useThree(); // Access the WebGL context
-  const { progress } = useProgress()
   const [modelLoaded, setModelLoaded] = useState(false);
-  const [screenShotted, setScreenShotted] = useState(false);
 
-  // useEffect(() => {
-  //   mesh.computeVertexNormals();
-  //   console.log("MODEL LOADED")
-  //   const screenshotDataUri = gl.domElement.toDataURL('image/png');
-  //   console.log("screenshot taken")
-  //   onModelLoaded(screenshotDataUri);
-  //   setModelLoaded(false);
-  //   //setModelLoaded(true);
-  // },[]);
   useEffect(() => {
     mesh.computeVertexNormals();
+    console.log("MODEL LOADED")
+    setModelLoaded(true);
+    //setModelLoaded(true);
   },[]);
 
-  useEffect(() => {
-    if(progress == 100 && !screenShotted){
+  useFrame(() => {
+    if (modelLoaded) {
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
+      console.log(screenshotDataUri)
       onModelLoaded(screenshotDataUri);
-      setScreenShotted(true);
+      setModelLoaded(false);
     }
-  },[progress, screenShotted]);
-
-  // useFrame(() => {
-  //   if (modelLoaded) {
-  //     const screenshotDataUri = gl.domElement.toDataURL('image/png');
-  //     console.log("screenshot taken")
-  //     onModelLoaded(screenshotDataUri);
-  //     setModelLoaded(false);
-  //   }
-  // });
+  });
 
   return (
     <mesh geometry={mesh as BufferGeometry} scale={[2, 2, 2]}>
