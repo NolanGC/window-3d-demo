@@ -15,21 +15,27 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
   const mesh = useLoader(PLYLoader, url);
   const { gl } = useThree(); // Access the WebGL context
   const [modelLoaded, setModelLoaded] = useState(false);
+  const [modelRendered, setModelRendered] = useState(false);
 
   useEffect(() => {
     mesh.computeVertexNormals();
     console.log("MODEL LOADED")
     setModelLoaded(true);
-    //setModelLoaded(true);
+    setModelRendered(false);
   },[]);
 
   useFrame(() => {
-    setTimeout(() => {
+    if (modelLoaded && !modelRendered) {
+      // The model has been loaded but not yet rendered, so we don't take a screenshot yet
+      setModelRendered(true);
+    } else if (modelLoaded && modelRendered) {
+      // The model has been loaded and rendered, so we can take a screenshot
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
       console.log(screenshotDataUri)
       onModelLoaded(screenshotDataUri);
       setModelLoaded(false);
-    }, 1000);
+      setModelRendered(false);
+    }
   });
 
   return (
