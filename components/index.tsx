@@ -46,7 +46,7 @@ export default function IndexPage(props: Props) {
   const handleShare = () => {
     // copy share link to clipboard
     navigator.clipboard.writeText(shareLink);
-    toastShad({ description: "Copied link to clipboard." });
+    toastShad({ title: "Copied link to clipboard." });
   };
 
   const handleGenerate = async () => {
