@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { getWindowAI } from "window.ai";
 import { useToast } from "@/components/ui/use-toast";
+import { ToasterShad } from "@/components/ui/toaster";
 import CanvasComponent from "@/components/canvas";
 import {getSignedURL, uploadToGcs} from "@/lib/gcs";
 import { Card, CardContent } from "@/components/ui/card";
@@ -179,6 +180,7 @@ export default function IndexPage(props: Props) {
         </CardContent>
       </Card>
       <Toaster></Toaster>
+      <ToasterShad></ToasterShad>
     </div>
     </>
   );
