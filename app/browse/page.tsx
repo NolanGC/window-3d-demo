@@ -1,5 +1,5 @@
   "use client";
-  import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect, use } from "react";
   import { Button } from "@/components/ui/button";
   import { Loader } from "lucide-react";
   import { Table, TableCell, TableRow } from "@/components/ui/table";
@@ -14,6 +14,8 @@
   } from "@/components/ui/card";
   import { useRouter } from "next/navigation";
   import { useMediaQuery } from "react-responsive";
+import { ToasterShad } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
   const Skeleton = () => {
     return (
@@ -37,6 +39,8 @@
     const itemsPerPage = 9;
     const itemsPerRow = isMobile ? 1 : 3;
     const router = useRouter();
+    const shadToaster = useToast();
+    const toastShad = shadToaster.toast;
 
 
     const handleInspectClick = (id: any) => {
@@ -65,6 +69,7 @@
               return [...prevItems, ...newItems];
             });
           }
+          toastShad({ title: "Objects on this page are interactable!" });
         } catch (error) {
           console.error("Failed to fetch items:", error);
         } finally {
@@ -174,6 +179,7 @@
         >
           {loading ? <Loader className="spin" /> : "Show more"}
         </Button>
+        <ToasterShad></ToasterShad>
       </div>
     );
   };
