@@ -7,11 +7,12 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import Head from "next/head"
 
 interface RootLayoutProps {
   children: React.ReactNode
 }
-  
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
