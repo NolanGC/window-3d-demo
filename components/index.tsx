@@ -25,11 +25,11 @@ export function Banner() {
   return (
     <div className="bg-orange-200 text-orange-900 text-center py-2">
       <p>
-        🚀 We're live on
+        🚀 We`&apos;`re live on
         <a href="https://www.producthunt.com" target="_blank" rel="noreferrer" className="underline mx-2">
           Product Hunt
         </a> 
-      and we'd really appreciate your support! 🚀
+      and we`&apos;`d really appreciate your support! 🚀
       </p>
     </div>
   )
