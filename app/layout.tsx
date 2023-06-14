@@ -12,19 +12,7 @@ import Head from "next/head"
 interface RootLayoutProps {
   children: React.ReactNode
 }
-export function Banner() {
-  return (
-    <div className="bg-orange-200 text-orange-900 text-center py-2">
-      <p>
-        🚀 We're live on
-        <a href="https://www.producthunt.com" target="_blank" rel="noreferrer" className="underline mx-2">
-          Product Hunt
-        </a> 
-      and we'd really appreciate your support! 🚀
-      </p>
-    </div>
-  )
-}
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
@@ -40,7 +28,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
-              <Banner></Banner>
               <div className="flex-1">{children}</div>
             </div>
             <TailwindIndicator />

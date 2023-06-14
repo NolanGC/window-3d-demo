@@ -21,6 +21,19 @@ type Props = {
     inputText: string;
     shareLink: string;
 }
+export function Banner() {
+  return (
+    <div className="bg-orange-200 text-orange-900 text-center py-2">
+      <p>
+        🚀 We're live on
+        <a href="https://www.producthunt.com" target="_blank" rel="noreferrer" className="underline mx-2">
+          Product Hunt
+        </a> 
+      and we'd really appreciate your support! 🚀
+      </p>
+    </div>
+  )
+}
 
 export default function IndexPage(props: Props) {
   const [objectLink, setObjectLink] = useState<string>(
@@ -130,6 +143,7 @@ export default function IndexPage(props: Props) {
 
    return (
     <>
+    <Banner></Banner>
     <head>
         <title>{`${title} - generated with window.ai`}</title>
         <meta
