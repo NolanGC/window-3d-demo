@@ -69,7 +69,9 @@ import { useToast } from "@/components/ui/use-toast";
               return [...prevItems, ...newItems];
             });
           }
-          toastShad({ title: "Objects on this page are interactable!" });
+          if(page == 0){
+            toastShad({ title: "Objects on this page are interactable!" });
+          }
         } catch (error) {
           console.error("Failed to fetch items:", error);
         } finally {
