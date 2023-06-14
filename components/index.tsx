@@ -143,7 +143,7 @@ export default function IndexPage(props: Props) {
 
    return (
     <>
-    <Banner></Banner>
+    {/* <Banner></Banner> */}
     <head>
         <title>{`${title} - generated with window.ai`}</title>
         <meta
