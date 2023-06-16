@@ -1,9 +1,8 @@
 import { CreationsTable } from '../../lib/drizzle';
 import { db } from '../../lib/drizzle';
 import { eq } from "drizzle-orm";
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'GET') {
     const { id } = req.query;
     try {

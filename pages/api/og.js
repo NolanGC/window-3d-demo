@@ -94,7 +94,7 @@ export default async function handler(request) {
         },
       })
       const databaseItemJson = await databaseItem.json();
-      console.log(Object.keys(databaseItemJson[0]))
+      //console.log(Object.keys(databaseItemJson[0]))
       const imageThumbnail = databaseItemJson[0].thumbnail_uri;
       return new ImageResponse(thumbnail(imageThumbnail))
     }

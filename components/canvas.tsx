@@ -30,7 +30,7 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
     } else if (modelLoaded && modelRendered) {
       // The model has been loaded and rendered, so we can take a screenshot
       const screenshotDataUri = gl.domElement.toDataURL('image/png');
-      console.log(screenshotDataUri)
+      //console.log(screenshotDataUri)
       onModelLoaded(screenshotDataUri);
       setModelLoaded(false);
       setModelRendered(false);

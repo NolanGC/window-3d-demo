@@ -97,7 +97,7 @@ export default function IndexPage(props: Props) {
           console.log("check if generating")
           if(generating){
             console.log("uploading")
-            console.log(screenshotData)
+            //console.log(screenshotData)
             
             const filename = `${inputText}_thumbnail.png`;
             const signedUrl = await getSignedURL(filename);
