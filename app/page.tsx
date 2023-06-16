@@ -20,7 +20,7 @@ export default async function Home({
       });
   }
   const id = searchParams?.id;
-  var title = "Create Synthetic 3D Assets"
+  var title = "Make AI 3D Assets"
   if (id) {
     const resp = await (await populateFromID()).json();
     objectLink = resp[0].data_uri;
