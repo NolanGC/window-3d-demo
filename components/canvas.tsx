@@ -54,7 +54,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({ objectLink, onScreens
     <div className="w-full h-full">
       <Canvas gl={{ preserveDrawingBuffer: true }} style={{ width: '100%', height: '100%' }}>
         <PerspectiveCamera makeDefault position={[0, -6, 5]} />
-        <ambientLight intensity={4} />
+        <ambientLight intensity={6} />
         {objectLink && (
           <Suspense fallback={<Html center><Loader /></Html>}>
             <Model key={objectLink} url={objectLink} onModelLoaded={onScreenshotReady} />
