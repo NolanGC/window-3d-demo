@@ -179,7 +179,7 @@ export default function IndexPage(props: Props) {
                 <SelectContent>
                   <SelectItem value="16">Low</SelectItem>
                   <SelectItem value="32">Medium</SelectItem>
-                  <SelectItem value="64">High</SelectItem>
+                  <SelectItem value="48">High</SelectItem>
                 </SelectContent>
               </Select>
             </div>
