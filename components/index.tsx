@@ -112,12 +112,7 @@ export default function IndexPage(props: Props) {
               data_uri: objectLink,
             };
             const insertedCreationResponse = await uploadCreation(newCreation);
-            if(id){
-              setShareLink(window.location.href + "?id=" + insertedCreationResponse.id);
-            }
-            else{
-              setShareLink(window.location.href + "?id=" + insertedCreationResponse.id);
-            }
+            setShareLink(window.location.href + "?id=" + insertedCreationResponse.id);
             setGenerating(false);
           }
       }
