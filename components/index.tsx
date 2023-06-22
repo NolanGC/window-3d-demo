@@ -43,6 +43,7 @@ export default function IndexPage(props: Props) {
   const [shareLink, setShareLink] = useState<string>(props.shareLink);
   const [generating, setGenerating] = useState<boolean>(false);
   const [numInferenceSteps, setNumInferenceSteps] = useState<number>(16);
+  const [lastUploadTimestamp, setLastUploadTimestamp] = useState<number>(0);
   const shadToaster = useToast();
   const toastShad = shadToaster.toast;
   const ai = useRef<any>(null);
@@ -66,6 +67,11 @@ export default function IndexPage(props: Props) {
   const handleGenerate = async () => {
     const promptObject = { prompt: inputText };
     try {
+      const timeSinceLastUpload = Date.now() - lastUploadTimestamp;
+      console.log("TIME SINCE LAST UPLOAD: " + timeSinceLastUpload + "ms")
+      if (timeSinceLastUpload < 8000) {
+        return;
+      }
       setGenerating(true);
       if (!ai.current) {
         toastShad({ title: "Error loading window.ai." });
@@ -83,7 +89,8 @@ export default function IndexPage(props: Props) {
       await uploadToGcs(data_uri, signedUrl, filename);
       // Now the data URI is the public URL of the uploaded file
       const bucketName = "window-objects";
-      const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;  
+      const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`; 
+      setLastUploadTimestamp(Date.now()); 
       setObjectLink(publicUrl);
     } catch (error) {
       console.error(error);
