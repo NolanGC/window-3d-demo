@@ -15,7 +15,7 @@ export async function uploadToGcs( dataUri: RequestInfo | URL, signedUrl: Reques
         throw new Error("Could not upload file.");
     }
 
-    const bucketName = "window-objects";
+    const bucketName = "3dobjects";
     const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
     return publicUrl;
 }

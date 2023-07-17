@@ -88,7 +88,7 @@ export default function IndexPage(props: Props) {
       // Upload the data URI to GCS
       await uploadToGcs(data_uri, signedUrl, filename);
       // Now the data URI is the public URL of the uploaded file
-      const bucketName = "window-objects";
+      const bucketName = "3dobjects";
       const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`; 
       setLastUploadTimestamp(Date.now()); 
       setObjectLink(publicUrl);
@@ -111,7 +111,7 @@ export default function IndexPage(props: Props) {
             // Upload the data URI to GCS
             await uploadToGcs(screenshotData, signedUrl, filename);
             // Now the data URI is the public URL of the uploaded file
-            const bucketName = "window-objects";
+            const bucketName = "3dobjects";
             const thumbnailUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
             const newCreation = {
               prompt: inputText,

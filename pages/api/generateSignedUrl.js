@@ -7,7 +7,7 @@ const storage = new Storage({credentials: credentials});
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const bucketName = 'window-objects'; // Replace with your bucket name
+    const bucketName = '3dobjects'; // Replace with your bucket name
     const filename = req.body.filename; // Filename should be sent in the request body
 
     try {
