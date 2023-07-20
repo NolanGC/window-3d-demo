@@ -105,7 +105,7 @@ export default function IndexPage(props: Props) {
             numInferenceSteps: numInferenceSteps,
           }),
           headers: {
-            "HTTP-Referer": "https://window-3d-demo.vercel.app/",
+            "HTTP-Referer": "https://openrouter-3d-generator.vercel.app/",
             "X-Title": "3D Asset Generator",
             Authorization: `Bearer ${openrouterApiKey}`,
           },
@@ -203,7 +203,7 @@ export default function IndexPage(props: Props) {
         //   )
         // }
         setShareLink(
-          "https://window-3d-demo.vercel.app/?id=" + insertedCreationResponse.id
+          "https://openrouter-3d-generator.vercel.app/?id=" + insertedCreationResponse.id
         )
         setGenerating(false)
       }
@@ -250,7 +250,6 @@ export default function IndexPage(props: Props) {
         }
       }
     };
-  
     getOpenrouterApiKey();
   }, []);
 
@@ -261,7 +260,7 @@ export default function IndexPage(props: Props) {
         <title>{`${title} - generated with window.ai`}</title>
         <meta
           property="og:image"
-          content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}
+          content={`https://openrouter-3d-generator.vercel.app/api/og?id=${id}`}
         />
         <meta
           property="og:title"
@@ -273,12 +272,12 @@ export default function IndexPage(props: Props) {
         ></meta>
         <meta
           property="twitter:image"
-          content={`https://window-3d-demo.vercel.app/api/og?id=${id}`}
+          content={`https://openrouter-3d-generator.vercel.app/api/og?id=${id}`}
         ></meta>
         <meta property="twitter:card" content="summary_large_image"></meta>
         <meta
           property="twitter:title"
-          content={`${title} - generated with window.ai`}
+          content={`${title} - generated with OpenRouter`}
         ></meta>
         <meta
           property="twitter:description"
