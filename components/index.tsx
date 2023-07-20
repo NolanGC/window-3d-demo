@@ -165,6 +165,13 @@ export default function IndexPage(props: Props) {
     }
   }
 
+  const toastIfNoOpenrouter = () => {
+    if(!openrouterApiKey) {
+      console.log(openrouterApiKey)
+      getOpenRouterToast()
+    }
+  }
+
   const handleScreenShotAndUpload = async (screenshotData: any) => {
     try {
       console.log("check if generating")
@@ -208,40 +215,44 @@ export default function IndexPage(props: Props) {
   }
 
   useEffect(() => {
-    const init = async () => {
+    const tryWindow = async () => {
       try {
-        const windowAI = await getWindowAI()
-        ai.current = windowAI
-        toastShad({ title: "window.ai detected." })
+        const windowAI = await getWindowAI();
+        ai.current = windowAI;
+        toastShad({ title: "window.ai detected." });
       } catch (error) {
-        //getWindowToast()
-        getOpenRouterToast()
+        toastIfNoOpenrouter();
       }
-    }
-    const openrouterApiKeyFromStorage = localStorage.getItem("openrouterApiKey")
-    if (openrouterApiKeyFromStorage) {
-      setOpenrouterApiKey(openrouterApiKeyFromStorage)
-    } else {
-      const codeFromSearchParams = searchParams?.get("code")
-      if (codeFromSearchParams) {
-        fetch("https://openrouter.ai/api/v1/auth/keys", {
-          method: "POST",
-          body: JSON.stringify({ code: codeFromSearchParams }),
-        })
-          .then((res) => res.json())
-          .then((res) => {
+    };
+  
+    const getOpenrouterApiKey = async () => {
+      const openrouterApiKeyFromStorage = localStorage.getItem("openrouterApiKey");
+      if (openrouterApiKeyFromStorage) {
+        setOpenrouterApiKey(openrouterApiKeyFromStorage);
+      } else {
+        const codeFromSearchParams = searchParams?.get("code");
+        if (codeFromSearchParams) {
+          try {
+            const response = await fetch("https://openrouter.ai/api/v1/auth/keys", {
+              method: "POST",
+              body: JSON.stringify({ code: codeFromSearchParams }),
+            });
+            const res = await response.json();
             if (res.key) {
-              localStorage.setItem("openrouterApiKey", res.key)
-              setOpenrouterApiKey(res.key)
+              localStorage.setItem("openrouterApiKey", res.key);
+              setOpenrouterApiKey(res.key);
             }
-          })
-          .catch((err) => console.error(err))
+          } catch (err) {
+            console.error(err);
+          }
+        } else {
+          await tryWindow();
+        }
       }
-      if(!openrouterApiKey) {
-        init()
-      }
-    }
-  }, [])
+    };
+  
+    getOpenrouterApiKey();
+  }, []);
 
   return (
     <>
