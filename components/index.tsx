@@ -328,6 +328,11 @@ export default function IndexPage(props: Props) {
                   if (openrouterApiKey) {
                     localStorage.removeItem("openrouterApiKey")
                     setOpenrouterApiKey("")
+
+                    // remove ?code=... parameter from url
+                    const url = new URL(window.location.href)
+                    url.searchParams.delete("code")
+                    window.history.replaceState({}, "", url.toString())
                   } else {
                     router.push(
                       `https://openrouter.ai/auth?callback_url=${
