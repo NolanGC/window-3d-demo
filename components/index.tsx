@@ -112,7 +112,7 @@ export default function IndexPage(props: Props) {
         }
       )
       const outputJson = await res.json()
-      const output = outputJson.data
+      const output = outputJson.generations
       const filename = `${inputText}.ply`
       // Store the generated object in the DB using the API endpoint
       const data_uri = output[0].uri
