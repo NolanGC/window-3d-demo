@@ -44,7 +44,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 
     const handleInspectClick = (id: any) => {
-      router.push(`/?id=${id}`);
+      router.push(`https://openrouter-3d-generator.vercel.app/?id=${id}`);
     };
 
     useEffect(() => {
