@@ -1,9 +1,9 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "window.ai 3D Generator",
+  name: "OpenRouter 3D Generator",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "Generate high quality 3D assets in your browser with OpenRouter",
 
     mainNav: [
        {
@@ -13,7 +13,7 @@ export const siteConfig = {
     ],
 
   links: {
-    twitter: "https://twitter.com/windowai_io",
+    twitter: "https://twitter.com/OpenRouterAI",
     github: "https://github.com/NolanGC/window-3d-demo",
   },
 }

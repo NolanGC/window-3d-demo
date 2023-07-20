@@ -212,7 +212,9 @@ export default function IndexPage(props: Props) {
         toastShad({ title: "window.ai detected." })
       } catch (error) {
         //getWindowToast()
-        getOpenRouterToast()
+        if(!openrouterApiKey) {
+          getOpenRouterToast()
+        }
       }
     }
     const openrouterApiKeyFromStorage = localStorage.getItem("openrouterApiKey")
