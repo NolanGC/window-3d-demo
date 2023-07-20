@@ -36,7 +36,7 @@ export function Banner() {
       <p>
         🚀 We&apos;re live on
         <a
-          href="https://www.producthunt.com"
+          href="https://www.producthunt.com/posts/openrouter-3d-asset-generator"
           target="_blank"
           rel="noreferrer"
           className="underline mx-2"
