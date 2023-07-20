@@ -87,7 +87,7 @@ export default async function handler(request) {
       return fallback;
     }
     else {
-      const databaseItem = await fetch(`https://window-3d-demo.vercel.app/api/find?id=${id}`, {
+      const databaseItem = await fetch(`https://openrouter-3d-generator.vercel.app/api/find?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
