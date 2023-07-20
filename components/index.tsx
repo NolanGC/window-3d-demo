@@ -97,7 +97,7 @@ export default function IndexPage(props: Props) {
       }
       setGenerating(true)
       const res = await fetch(
-        "https://openrouter.ai/api/v1/media/generations",
+        "https://openrouter.ai/api/v1/objects/generations",
         {
           method: "POST",
           body: JSON.stringify({
@@ -212,7 +212,7 @@ export default function IndexPage(props: Props) {
         toastShad({ title: "window.ai detected." })
       } catch (error) {
         //getWindowToast()
-        if(!openrouterApiKey) {
+        if (!openrouterApiKey) {
           getOpenRouterToast()
         }
       }
