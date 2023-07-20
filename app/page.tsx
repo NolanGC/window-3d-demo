@@ -11,7 +11,7 @@ export default async function Home({
   var inputText = "";
   var shareLink = "";
   const populateFromID = async () => {
-      return fetch(`https://window-3d-demo-epp3tqxt4-nolangc.vercel.app/api/find?id=${id}`, {
+      return fetch(`https://window-3d-demo-nolangc.vercel.app/api/find?id=${id}`, {
         // Use the /find endpoint with the 'id' parameter
         method: "GET",
         headers: {
