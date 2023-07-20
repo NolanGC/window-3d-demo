@@ -256,18 +256,18 @@ export default function IndexPage(props: Props) {
     <>
       <Banner></Banner>
       <head>
-        <title>{`${title} - generated with window.ai`}</title>
+        <title>{`${title} - generated with OpenRouter`}</title>
         <meta
           property="og:image"
           content={`https://openrouter-3d-generator.vercel.app/api/og?id=${id}`}
         />
         <meta
           property="og:title"
-          content={`${title} - generated with window.ai`}
+          content={`${title} - generated with OpenRouter`}
         ></meta>
         <meta
           property="og:description"
-          content="3D model generated with shap-e via window.ai"
+          content="3D model generated with shap-e via OpenRouter"
         ></meta>
         <meta
           property="twitter:image"
@@ -280,7 +280,7 @@ export default function IndexPage(props: Props) {
         ></meta>
         <meta
           property="twitter:description"
-          content="3D model generated with shap-e via Window AI"
+          content="3D model generated with shap-e via OpenRouter"
         ></meta>
       </head>
       <div className="flex flex-col h-screen w-full">
