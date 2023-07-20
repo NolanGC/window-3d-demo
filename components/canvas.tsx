@@ -18,7 +18,7 @@ const Model: React.FC<ModelProps> = ({ url, onModelLoaded }) => {
 
   useEffect(() => {
     mesh.computeVertexNormals();
-    console.log("MODEL LOADED")
+    //console.log("MODEL LOADED")
     setModelLoaded(true);
     setModelRendered(false);
   },[]);

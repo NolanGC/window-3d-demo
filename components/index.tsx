@@ -91,7 +91,7 @@ export default function IndexPage(props: Props) {
   const handleGenerateWithOpenrouter = async () => {
     try {
       const timeSinceLastUpload = Date.now() - lastUploadTimestamp
-      console.log("TIME SINCE LAST UPLOAD: " + timeSinceLastUpload + "ms")
+      //console.log("TIME SINCE LAST UPLOAD: " + timeSinceLastUpload + "ms")
       if (timeSinceLastUpload < 8000) {
         return
       }
@@ -134,7 +134,7 @@ export default function IndexPage(props: Props) {
     const promptObject = { prompt: inputText }
     try {
       const timeSinceLastUpload = Date.now() - lastUploadTimestamp
-      console.log("TIME SINCE LAST UPLOAD: " + timeSinceLastUpload + "ms")
+      //console.log("TIME SINCE LAST UPLOAD: " + timeSinceLastUpload + "ms")
       if (timeSinceLastUpload < 8000) {
         return
       }
@@ -167,16 +167,15 @@ export default function IndexPage(props: Props) {
 
   const toastIfNoOpenrouter = () => {
     if(!openrouterApiKey) {
-      console.log(openrouterApiKey)
       getOpenRouterToast()
     }
   }
 
   const handleScreenShotAndUpload = async (screenshotData: any) => {
     try {
-      console.log("check if generating")
+      //console.log("check if generating")
       if (generating) {
-        console.log("uploading")
+        //console.log("uploading")
         //console.log(screenshotData)
 
         const filename = `${inputText}_thumbnail.png`
