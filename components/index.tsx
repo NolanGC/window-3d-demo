@@ -185,16 +185,19 @@ export default function IndexPage(props: Props) {
           data_uri: objectLink,
         }
         const insertedCreationResponse = await uploadCreation(newCreation)
-        if (id) {
-          setShareLink(
-            "https://window-3d-demo.vercel.app/?id=" +
-              insertedCreationResponse.id
-          )
-        } else {
-          setShareLink(
-            window.location.href + "?id=" + insertedCreationResponse.id
-          )
-        }
+        // if (id) {
+        //   setShareLink(
+        //     "https://window-3d-demo.vercel.app/?id=" +
+        //       insertedCreationResponse.id
+        //   )
+        // } else {
+        //   setShareLink(
+        //     window.location.href + "?id=" + insertedCreationResponse.id
+        //   )
+        // }
+        setShareLink(
+          "https://window-3d-demo.vercel.app/?id=" + insertedCreationResponse.id
+        )
         setGenerating(false)
       }
     } catch (error) {
